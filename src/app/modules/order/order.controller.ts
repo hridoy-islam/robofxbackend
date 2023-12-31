@@ -2,6 +2,7 @@ import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { OrderServices } from "./order.service";
+import { RequestHandler } from "express";
 
 const createOrder = catchAsync(async(req, res)=> {
     const result = await OrderServices.createOrderToDB(req.body)
@@ -13,8 +14,8 @@ const createOrder = catchAsync(async(req, res)=> {
       });
 })
 
-const getAllOrder = catchAsync(async(req, res)=> {
-    const result = await OrderServices.getAllOrdersFromDB();
+const getAllOrder: RequestHandler = catchAsync(async(req, res)=> {
+    const result = await OrderServices.getAllOrdersFromDB(req.query);
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,

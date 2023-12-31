@@ -1,3 +1,4 @@
+import QueryBuilder from "../../builder/QueryBuilder";
 import { TOrder } from "./order.interface";
 import { Order } from "./order.model";
 
@@ -6,9 +7,25 @@ const createOrderToDB = async (payload: TOrder) => {
     return newOrder
 }
 
-const getAllOrdersFromDB =async () => {
-    const allOrders = await Order.find();
-    return allOrders
+const getAllOrdersFromDB =async (query: Record<string, unknown>) => {
+    const orderQuery = new QueryBuilder(
+        Order.find().populate('userid').populate('productid'),
+        query,
+      )
+        .filter()
+        .sort()
+        .paginate()
+        .fields();
+    
+      const meta = await orderQuery.countTotal();
+      const result = await orderQuery.modelQuery;
+    
+      return {
+        meta,
+        result,
+      };
+ 
+ 
 }
 
 const getSingleOrderFromDB = async (id:string) => {
