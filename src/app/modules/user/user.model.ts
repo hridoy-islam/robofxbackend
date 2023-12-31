@@ -3,8 +3,8 @@ import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 import config from '../../config';
 import { UserStatus } from './user.constant';
-import { TUser, UserModel } from './user.interface';
-const userSchema = new Schema<TUser, UserModel>(
+import { TUser } from './user.interface';
+const userSchema = new Schema<TUser>(
   {
     email: {
       type: String,
@@ -18,7 +18,8 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     role: {
       type: String,
-      enum: ['student', 'admin'],
+      enum: ['user', 'admin'],
+      default: 'user'
     },
     status: {
       type: String,
@@ -74,4 +75,4 @@ userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
   return passwordChangedTime > jwtIssuedTimestamp;
 };
 
-export const User = model<TUser, UserModel>('User', userSchema);
+export const User = model<TUser>('User', userSchema);

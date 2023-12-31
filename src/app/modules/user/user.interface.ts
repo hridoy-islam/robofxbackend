@@ -25,6 +25,7 @@ export type TUserBilling ={
 export interface TUser {
   email: string;
   password: string;
+  role: 'user' | 'admin'
   status: 'pending' | 'approved' | 'blocked';
   isDeleted: boolean;
   photo: string;
