@@ -4,6 +4,7 @@ import { ProductRoutes } from '../modules/product/product.route';
 import { OrderRoutes } from '../modules/order/order.route';
 import { RigRoutes } from '../modules/rig/rig.route';
 import { WithdrawRoutes } from '../modules/withdraw/withdraw.route';
+import { AuthRoutes } from '../modules/auth/auth.router';
 
 const router = Router();
 
@@ -27,6 +28,10 @@ const moduleRoutes = [
   {
     path: '/withdraws',
     route: WithdrawRoutes,
+  },
+  {
+    path: '/auth',
+    route: AuthRoutes,
   },
 ];
 

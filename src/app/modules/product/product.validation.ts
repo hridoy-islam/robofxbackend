@@ -9,7 +9,8 @@ const createProductValidationSchema = z.object({
         ram: z.string(),
         smps : z.string(),
         graphicscard: z.string(),
-        photo: z.string()
+        photo: z.string(),
+        price: z.number()
     }),
 })
 

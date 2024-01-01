@@ -43,6 +43,10 @@ const checkLogin = async (payload: TLogin) => {
     }
 }
 const createUserIntoDB = async (payload: TCreateUser) => {
+    const user = await User.findOne({ email: payload.email });
+    if (user) {
+        throw new AppError(httpStatus.NOT_FOUND, 'This email is already exits!');
+    }
     const result = await User.create(payload);
     return result;
 }

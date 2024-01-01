@@ -8,6 +8,10 @@ const productSchema = new Schema<TProduct>(
             required: true,
             unique: true,
         },
+        price: {
+            type: Number,
+            required: true
+        },
         powerdby: {
             type: String,
             required: true,

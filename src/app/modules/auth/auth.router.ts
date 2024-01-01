@@ -5,17 +5,17 @@ import { AuthValidations } from "./auth.validation";
 const router = express.Router()
 
 router.post('/login', validateRequest(AuthValidations.loginValidationSchema), AuthControllers.login)
-router.post('/create-user', AuthControllers.createUser);
+router.post('/create-user', validateRequest(AuthValidations.createUserValidationSchema), AuthControllers.createUser);
 router.post(
-    '/forget-password',
-    validateRequest(AuthValidations.forgetPasswordValidationSchema),
-    AuthControllers.forgetPassword,
-  );
+  '/forget-password',
+  validateRequest(AuthValidations.forgetPasswordValidationSchema),
+  AuthControllers.forgetPassword,
+);
 
 router.post(
-    '/reset',
-    validateRequest(AuthValidations.forgetPasswordValidationSchema),
-    AuthControllers.resetPassword,
+  '/reset',
+  validateRequest(AuthValidations.forgetPasswordValidationSchema),
+  AuthControllers.resetPassword,
 );
 
 

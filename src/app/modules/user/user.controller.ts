@@ -11,7 +11,7 @@ const getAllUser: RequestHandler = catchAsync(async (req, res) => {
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'Order retrived succesfully',
+        message: 'Users retrived succesfully',
         data: result,
     });
 

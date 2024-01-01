@@ -8,4 +8,5 @@ export type TProduct = {
     graphicscard: string;
     photo: string;
     isDeleted: boolean;
+    price: number;
 }

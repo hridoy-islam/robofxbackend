@@ -15,8 +15,16 @@ const forgetPasswordValidationSchema = z.object({
     })
 })
 
+const createUserValidationSchema = z.object({
+    body: z.object({
+        email: z.string({required_error: 'User Email is Required'}),
+        password: z.string({required_error: 'Password required'})
+    })
+})
+
 
 export const AuthValidations = {
     loginValidationSchema,
-    forgetPasswordValidationSchema
+    forgetPasswordValidationSchema,
+    createUserValidationSchema
 }
