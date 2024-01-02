@@ -8,8 +8,13 @@ const getAllExchangesFromDB = async () => {
   return result;
 };
 
+const getSingleExchangesFromDB =  async (id: string) => {
+  const result = await Exchange.findById(id);
+  return result;
+};
+
 const createExchangeIntoDB = async (payload: TExchange) => {
-  const isExists = await Exchange.find(payload);
+  const isExists = await Exchange.findOne(payload);
   if (isExists) {
     throw new AppError(httpStatus.NOT_FOUND, 'Exchange already exists');
   }
@@ -33,4 +38,5 @@ export const ExchangeServices = {
   getAllExchangesFromDB,
   createExchangeIntoDB,
   updateExchangeIntoDB,
+  getSingleExchangesFromDB
 };

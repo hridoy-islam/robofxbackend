@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-export const exchangeValidationSchema = z.object({
+export const walletValidationSchema = z.object({
   body: z.object({
-    name: z.string({ required_error: 'Exchange name is required' }),
+    name: z.string({ required_error: 'Wallet name is required' }),
   }),
 });

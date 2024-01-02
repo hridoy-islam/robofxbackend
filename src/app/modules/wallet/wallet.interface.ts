@@ -1,3 +1,3 @@
-export type TExchange = {
+export type TWallet = {
   name: string;
 };
