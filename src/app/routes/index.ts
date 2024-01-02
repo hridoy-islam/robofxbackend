@@ -5,6 +5,9 @@ import { OrderRoutes } from '../modules/order/order.route';
 import { RigRoutes } from '../modules/rig/rig.route';
 import { WithdrawRoutes } from '../modules/withdraw/withdraw.route';
 import { AuthRoutes } from '../modules/auth/auth.router';
+import { EchangeRoutes } from '../modules/exchange/exchange.route';
+import { WalleteRoutes } from '../modules/wallet/wallet.route';
+import { SettingsRoutes } from '../modules/settings/settings.route';
 
 const router = Router();
 
@@ -32,6 +35,18 @@ const moduleRoutes = [
   {
     path: '/auth',
     route: AuthRoutes,
+  },
+  {
+    path: '/exchange',
+    route: EchangeRoutes,
+  },
+  {
+    path: '/wallet',
+    route: WalleteRoutes,
+  },
+  {
+    path: '/settings',
+    route: SettingsRoutes,
   },
 ];
 

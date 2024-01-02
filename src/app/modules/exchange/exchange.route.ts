@@ -6,6 +6,7 @@ import { exchangeValidationSchema } from './exchange.validation';
 const router = express.Router();
 
 router.get('/', ExchangeControllers.getAllExchanges);
+router.get('/:id', ExchangeControllers.getSingleExchanges);
 router.post(
   '/',
   validateRequest(exchangeValidationSchema),

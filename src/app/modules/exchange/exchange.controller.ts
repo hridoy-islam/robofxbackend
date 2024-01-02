@@ -13,6 +13,17 @@ const getAllExchanges = catchAsync(async (req, res) => {
   });
 });
 
+const getSingleExchanges = catchAsync(async (req, res) => {
+  const {id} = req.params
+  const result = await ExchangeServices.getAllExchangesFromDB();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Exchanges Retrived succesfully',
+    data: result,
+  });
+});
+
 const createExchange = catchAsync(async (req, res) => {
   const result = await ExchangeServices.createExchangeIntoDB(req.body);
   sendResponse(res, {
@@ -38,4 +49,5 @@ export const ExchangeControllers = {
   getAllExchanges,
   createExchange,
   updateExchange,
+  getSingleExchanges
 };
