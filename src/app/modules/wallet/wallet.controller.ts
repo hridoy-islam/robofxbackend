@@ -14,7 +14,7 @@ const getAllWalletes = catchAsync(async (req, res) => {
 });
 
 const getSingleWallet = catchAsync(async (req, res) => {
-  const {id} = req.params
+  const { id } = req.params;
   const result = await WalletServices.getSingleWalletFromDB(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -25,7 +25,6 @@ const getSingleWallet = catchAsync(async (req, res) => {
 });
 
 const createWallet = catchAsync(async (req, res) => {
-  console.log(req.body)
   const result = await WalletServices.createWalletIntoDB(req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -50,5 +49,5 @@ export const WalletControllers = {
   getAllWalletes,
   createWallet,
   updateWallet,
-  getSingleWallet
+  getSingleWallet,
 };
