@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { TExchange } from './wallet.interface';
-import { Exchange } from './exchange.model';
+import { Exchange } from './wallet.model';
 
 const getAllExchangesFromDB = async () => {
   const result = await Exchange.find();

@@ -1,7 +1,7 @@
 import express from 'express';
-import { ExchangeControllers } from './exchange.controller';
+import { ExchangeControllers } from './wallet.controller';
 import validateRequest from '../../middlewares/validateRequest';
-import { exchangeValidationSchema } from './exchange.validation';
+import { exchangeValidationSchema } from './wallet.validation';
 
 const router = express.Router();
 
