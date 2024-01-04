@@ -13,7 +13,7 @@ export const createInvoiceValidationSchema = z.object({
   body: z.object({
     category: z.enum([...InvoiceCategory] as [string, ...string[]]),
     userid: z.string({ required_error: 'User ID Required' }),
-    information: invoiceInformationSchema,
+    information: z.array(invoiceInformationSchema),
   }),
 });
 

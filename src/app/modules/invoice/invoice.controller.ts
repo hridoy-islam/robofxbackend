@@ -8,7 +8,7 @@ const createInvoice = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Product is created succesfully',
+    message: 'Invoice is created succesfully',
     data: result,
   });
 });
@@ -18,7 +18,7 @@ const getAllInvoice = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Products Retrived succesfully',
+    message: 'Invoices Retrived succesfully',
     data: result,
   });
 });
@@ -29,7 +29,7 @@ const getSingleInvoice = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Product Retrived succesfully',
+    message: 'Invoice Retrived succesfully',
     data: result,
   });
 });
@@ -40,7 +40,7 @@ const updateInvoice = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Product updated succesfully',
+    message: 'Invoice updated succesfully',
     data: result,
   });
 });
