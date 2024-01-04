@@ -21,4 +21,4 @@ router.patch(
   InvoiceControllers.updateInvoice,
 );
 
-export const ProductRoutes = router;
+export const InvoiceRoutes = router;

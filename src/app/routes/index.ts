@@ -8,6 +8,7 @@ import { AuthRoutes } from '../modules/auth/auth.router';
 import { EchangeRoutes } from '../modules/exchange/exchange.route';
 import { WalleteRoutes } from '../modules/wallet/wallet.route';
 import { SettingsRoutes } from '../modules/settings/settings.route';
+import { InvoiceRoutes } from '../modules/invoice/invoice.route';
 
 const router = Router();
 
@@ -47,6 +48,10 @@ const moduleRoutes = [
   {
     path: '/settings',
     route: SettingsRoutes,
+  },
+  {
+    path: '/invoices',
+    route: InvoiceRoutes,
   },
 ];
 

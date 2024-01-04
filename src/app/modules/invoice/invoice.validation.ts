@@ -29,6 +29,6 @@ export const updateInvoiceValidationSchema = z.object({
   body: z.object({
     category: z.enum([...InvoiceCategory] as [string, ...string[]]).optional(),
     userid: z.string({ required_error: 'User ID Required' }).optional(),
-    information: updateInvoiceInformationSchema,
+    information: z.array(updateInvoiceInformationSchema),
   }),
 });
