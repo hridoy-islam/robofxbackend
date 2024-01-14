@@ -14,7 +14,7 @@ const getAllExchanges = catchAsync(async (req, res) => {
 });
 
 const getSingleExchanges = catchAsync(async (req, res) => {
-  const { id } = req.params;
+  const {id} = req.params
   const result = await ExchangeServices.getSingleExchangesFromDB(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -49,5 +49,5 @@ export const ExchangeControllers = {
   getAllExchanges,
   createExchange,
   updateExchange,
-  getSingleExchanges,
+  getSingleExchanges
 };

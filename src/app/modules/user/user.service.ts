@@ -27,7 +27,32 @@ const getSingleUserFromDB = async (id: string) => {
 }
 
 const updateUserIntoDB = async(id: string, payload: Partial<TUser>)=> {
-    const result = await User.findByIdAndUpdate(id, payload);
+    const { billing_information, personal_information, contact_information, ...remainingStudentData } = payload;
+    const modifiedUpdatedData: Record<string, unknown> = {
+        ...remainingStudentData,
+      };
+
+      if (personal_information && Object.keys(personal_information).length) {
+        for (const [key, value] of Object.entries(personal_information)) {
+          modifiedUpdatedData[`personal_information.${key}`] = value;
+        }
+      }
+
+      if (contact_information && Object.keys(contact_information).length) {
+        for (const [key, value] of Object.entries(contact_information)) {
+          modifiedUpdatedData[`contact_information.${key}`] = value;
+        }
+      }
+
+      if (billing_information && Object.keys(billing_information).length) {
+        for (const [key, value] of Object.entries(billing_information)) {
+          modifiedUpdatedData[`billing_information.${key}`] = value;
+        }
+      }
+    
+    
+    const result = await User.findByIdAndUpdate(id, modifiedUpdatedData, {new: true, runValidators: true,});
+
     return result;
 }
 

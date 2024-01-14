@@ -9,14 +9,16 @@ export type TUserPersonal = {
   phone: string;
 };
 export type TUserContact = {
-  street: string;
+  address: string;
+  state: string;
   city: string;
   zipcode: string;
   country: string;
 };
 
 export type TUserBilling = {
-  street: string;
+  address: string;
+  state: string;
   city: string;
   zipcode: string;
   country: string;
@@ -30,7 +32,6 @@ export interface TUser {
   status: 'pending' | 'approved' | 'blocked';
   isDeleted: boolean;
   photo: string;
-  address: string;
   agreement: string;
   personal_information: TUserPersonal;
   contact_information: TUserContact;
