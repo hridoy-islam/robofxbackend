@@ -16,4 +16,5 @@ export type TInvoice = {
   category: TInvoiceCategory;
   userid: Types.ObjectId;
   information: TInvoiceInformation;
+  discount: number;
 };

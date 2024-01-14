@@ -14,6 +14,7 @@ export const createInvoiceValidationSchema = z.object({
     category: z.enum([...InvoiceCategory] as [string, ...string[]]),
     userid: z.string({ required_error: 'User ID Required' }),
     information: z.array(invoiceInformationSchema),
+    discount: z.number().optional(),
   }),
 });
 
@@ -23,6 +24,7 @@ const updateInvoiceInformationSchema = z.object({
   rate: z.number().optional(),
   tax: z.number().optional(),
   ammount: z.number().optional(),
+  discount: z.number().optional(),
 });
 
 export const updateInvoiceValidationSchema = z.object({

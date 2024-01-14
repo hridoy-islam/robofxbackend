@@ -15,13 +15,13 @@ const app: Application = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(cors({ origin: ['http://localhost:5173'] }));
+app.use(cors());
 
 // application routes
 app.use('/api', router);
 
 const test = async (req: Request, res: Response) => {
-  return res.json({message: 'working nicely'})
+  return res.json({ message: 'working nicely' });
 };
 
 app.get('/', test);
