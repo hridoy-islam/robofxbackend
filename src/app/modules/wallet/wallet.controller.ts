@@ -45,9 +45,21 @@ const updateWallet = catchAsync(async (req, res) => {
   });
 });
 
+const deleteWallet =  catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await WalletServices.deleteWalletIntoDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Wallet Deleted succesfully',
+    data: result,
+  });
+});
+
 export const WalletControllers = {
   getAllWalletes,
   createWallet,
   updateWallet,
   getSingleWallet,
+  deleteWallet
 };

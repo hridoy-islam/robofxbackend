@@ -19,4 +19,9 @@ router.patch(
   WalletControllers.updateWallet,
 );
 
+router.delete(
+  '/:id',
+  WalletControllers.deleteWallet,
+);
+
 export const WalleteRoutes = router;

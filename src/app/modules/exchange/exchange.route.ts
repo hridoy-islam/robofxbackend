@@ -19,4 +19,6 @@ router.patch(
   ExchangeControllers.updateExchange,
 );
 
+router.delete('/:id', ExchangeControllers.deleteExchange);
+
 export const EchangeRoutes = router;

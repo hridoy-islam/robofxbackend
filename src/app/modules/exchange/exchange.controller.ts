@@ -45,9 +45,21 @@ const updateExchange = catchAsync(async (req, res) => {
   });
 });
 
+const deleteExchange = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await ExchangeServices.deleteExchangeIntoDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Exchanges Delete succesfully',
+    data: result,
+  });
+});
+
 export const ExchangeControllers = {
   getAllExchanges,
   createExchange,
   updateExchange,
-  getSingleExchanges
+  getSingleExchanges,
+  deleteExchange
 };

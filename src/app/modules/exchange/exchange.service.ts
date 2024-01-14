@@ -34,9 +34,21 @@ const updateExchangeIntoDB = async (
   return result;
 };
 
+const deleteExchangeIntoDB =  async (
+  id: string,
+) => {
+  const exchange = await Exchange.findById(id);
+  if (!exchange) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Exchange not found');
+  }
+  const result = await Exchange.findByIdAndDelete(id);
+  return result;
+};
+
 export const ExchangeServices = {
   getAllExchangesFromDB,
   createExchangeIntoDB,
   updateExchangeIntoDB,
-  getSingleExchangesFromDB
+  getSingleExchangesFromDB,
+  deleteExchangeIntoDB
 };
