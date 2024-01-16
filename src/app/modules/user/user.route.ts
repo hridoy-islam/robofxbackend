@@ -1,18 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { UserControllers } from './user.controller';
-// import { upload } from '../../utils/multer';
-// import auth from '../../middlewares/auth';
+import auth from '../../middlewares/auth';
 
 const router = express.Router();
-router.get('/', UserControllers.getAllUser);
-router.get('/:id', UserControllers.getSingleUser);
+router.get('/', auth('user', 'admin'), UserControllers.getAllUser);
+router.get('/:id', auth('user', 'admin'), UserControllers.getSingleUser);
 
-router.patch('/:id', UserControllers.updateUser);
-// router.patch(
-//   '/:id/agreement',
-//   upload.single('agreement'),
-//   UserControllers.uploadAgreement,
-// );
+router.patch('/:id', auth('user', 'admin'), UserControllers.updateUser);
+
+// router.get('/me', auth('student', 'faculty', 'admin'), UserControllers.getMe);
 
 export const UserRoutes = router;

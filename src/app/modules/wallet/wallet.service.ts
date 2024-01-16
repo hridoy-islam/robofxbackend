@@ -34,9 +34,21 @@ const updateWalletIntoDB = async (
   return result;
 };
 
+const deleteWalletIntoDB = async (
+  id: string,
+) => {
+  const wallet = await Wallet.findById(id);
+  if (!wallet) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Wallet not found');
+  }
+  const result = await Wallet.findByIdAndDelete(id);
+  return result;
+};
+
 export const WalletServices = {
   getAllWalletesFromDB,
   createWalletIntoDB,
   updateWalletIntoDB,
-  getSingleWalletFromDB
+  getSingleWalletFromDB,
+  deleteWalletIntoDB
 };

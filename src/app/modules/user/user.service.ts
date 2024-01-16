@@ -1,36 +1,64 @@
-import QueryBuilder from '../../builder/QueryBuilder';
-import { TUser } from './user.interface';
-import { User } from './user.model';
+import QueryBuilder from "../../builder/QueryBuilder";
+import { TUser } from "./user.interface";
+import { User } from "./user.model";
 
 const getAllUserFromDB = async (query: Record<string, unknown>) => {
-  const userQuery = new QueryBuilder(User.find(), query)
-    .filter()
-    .sort()
-    .paginate()
-    .fields();
+    const userQuery = new QueryBuilder(
+        User.find(),
+        query,
+    )
+        .filter()
+        .sort()
+        .paginate()
+        .fields();
 
-  const meta = await userQuery.countTotal();
-  const result = await userQuery.modelQuery;
+    const meta = await userQuery.countTotal();
+    const result = await userQuery.modelQuery;
 
-  return {
-    meta,
-    result,
-  };
-};
+    return {
+        meta,
+        result,
+    };
+}
 
 const getSingleUserFromDB = async (id: string) => {
-  const result = await User.findById(id);
-  return result;
-};
+    const result = await User.findById(id);
+    return result;
+}
 
-const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
-  const result = await User.findByIdAndUpdate(id, payload);
-  return result;
-};
-// const uploadAgreementIntoDB = async (id: string, payload: Partial<TUser>) => {};
+const updateUserIntoDB = async(id: string, payload: Partial<TUser>)=> {
+    const { billing_information, personal_information, contact_information, ...remainingStudentData } = payload;
+    const modifiedUpdatedData: Record<string, unknown> = {
+        ...remainingStudentData,
+      };
+
+      if (personal_information && Object.keys(personal_information).length) {
+        for (const [key, value] of Object.entries(personal_information)) {
+          modifiedUpdatedData[`personal_information.${key}`] = value;
+        }
+      }
+
+      if (contact_information && Object.keys(contact_information).length) {
+        for (const [key, value] of Object.entries(contact_information)) {
+          modifiedUpdatedData[`contact_information.${key}`] = value;
+        }
+      }
+
+      if (billing_information && Object.keys(billing_information).length) {
+        for (const [key, value] of Object.entries(billing_information)) {
+          modifiedUpdatedData[`billing_information.${key}`] = value;
+        }
+      }
+    
+    
+    const result = await User.findByIdAndUpdate(id, modifiedUpdatedData, {new: true, runValidators: true,});
+
+    return result;
+}
+
 
 export const UserServices = {
-  getAllUserFromDB,
-  getSingleUserFromDB,
-  updateUserIntoDB,
-};
+    getAllUserFromDB,
+    getSingleUserFromDB,
+    updateUserIntoDB
+}

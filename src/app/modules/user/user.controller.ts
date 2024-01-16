@@ -1,54 +1,46 @@
-import { RequestHandler } from 'express';
-import catchAsync from '../../utils/catchAsync';
-import sendResponse from '../../utils/sendResponse';
-import httpStatus from 'http-status';
-import { UserServices } from './user.service';
+import { RequestHandler } from "express";
+import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sendResponse";
+import httpStatus from "http-status";
+import { UserServices } from "./user.service";
+
+
 
 const getAllUser: RequestHandler = catchAsync(async (req, res) => {
-  const result = await UserServices.getAllUserFromDB(req.query);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Users retrived succesfully',
-    data: result,
-  });
-});
+    const result = await UserServices.getAllUserFromDB(req.query)
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Users retrived succesfully',
+        data: result,
+    });
+
+})
 const getSingleUser = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const result = await UserServices.getSingleUserFromDB(id);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'User is retrieved succesfully',
-    data: result,
-  });
-});
+    const { id } = req.params;
+    const result = await UserServices.getSingleUserFromDB(id)
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'User is retrieved succesfully',
+        data: result,
+    });
+})
 
-const updateUser = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const result = await UserServices.updateUserIntoDB(id, req.body);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'User Updated succesfully',
-    data: result,
-  });
-});
+const updateUser = catchAsync(async(req, res)=> {
+    const {id} = req.params;
+    const result = await UserServices.updateUserIntoDB(id, req.body)
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'User is retrieved succesfully',
+        data: result,
+    });
+})
 
-// const uploadAgreement = catchAsync(async (req, res) => {
-//   const { id } = req.params;
-//   const result = await UserServices.uploadAgreementIntoDB(id, req.file);
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Agreement Uploaded succesfully',
-//     data: result,
-//   });
-// });
 
 export const UserControllers = {
-  getAllUser,
-  getSingleUser,
-  updateUser,
-  // uploadAgreement,
-};
+    getAllUser,
+    getSingleUser,
+    updateUser
+}
