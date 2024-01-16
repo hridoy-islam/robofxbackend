@@ -1,22 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import { UserControllers } from './user.controller';
+// import { upload } from '../../utils/multer';
 // import auth from '../../middlewares/auth';
-// import validateRequest from '../../middlewares/validateRequest';
-// import { upload } from '../../utils/sendImageToCloudinary';
-// import { createAdminValidationSchema } from '../Admin/admin.validation';
-// import { createFacultyValidationSchema } from '../Faculty/faculty.validation';
-// import { createStudentValidationSchema } from '../student/student.validation';
-// import { USER_ROLE } from './user.constant';
-// import { UserControllers } from './user.controller';
-// import { UserValidation } from './user.validation';
 
 const router = express.Router();
-router.get('/', UserControllers.getAllUser)
-router.get('/:id', UserControllers.getSingleUser)
+router.get('/', UserControllers.getAllUser);
+router.get('/:id', UserControllers.getSingleUser);
 
-router.patch('/:id', UserControllers.updateUser)
-
-// router.get('/me', auth('student', 'faculty', 'admin'), UserControllers.getMe);
+router.patch('/:id', UserControllers.updateUser);
+// router.patch(
+//   '/:id/agreement',
+//   upload.single('agreement'),
+//   UserControllers.uploadAgreement,
+// );
 
 export const UserRoutes = router;
