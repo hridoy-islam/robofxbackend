@@ -24,7 +24,7 @@ const updateProductValidationSchema = z.object({
     smps: z.string().optional(),
     graphicscard: z.string().optional(),
     photo: z.string().optional(),
-    price: z.string().optional(),
+    price: z.number().optional(),
   }),
 });
 
