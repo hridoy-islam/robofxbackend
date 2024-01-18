@@ -30,28 +30,39 @@ const userSchema = new Schema<TUser, UserModel>(
       type: Boolean,
       default: false,
     },
-    photo: { type: String },
     agreement: { type: String },
     personal_information: {
       firstName: { type: String },
       lastName: { type: String },
       email: { type: String },
-      phone: { type: String }
+      phone: { type: String },
+      photo: { type: String },
     },
     contact_information: {
       address: { type: String },
       state: { type: String },
       city: { type: String },
       zipcode: { type: String },
-      country: { type: String }
+      country: { type: String },
     },
     billing_information: {
       address: { type: String },
       state: { type: String },
       city: { type: String },
       zipcode: { type: String },
-      country: { type: String }
+      country: { type: String },
     },
+    currency: {
+      type: String,
+      default: 'USD',
+    },
+    wallets: [
+      {
+        exchange: { type: String },
+        wallet: { type: String },
+        account: { type: String },
+      },
+    ],
   },
   {
     timestamps: true,
