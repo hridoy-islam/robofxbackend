@@ -15,7 +15,28 @@ const changeStatusValidationSchema = z.object({
     status: z.enum([...UserStatus] as [string, ...string[]]),
   }),
 });
+
+const userWalletSchema = z.object({
+  body: z.object({
+    exchange: z.string(),
+    wallet: z.string(),
+    account: z.string()
+  }),
+});
+
+const updateUserWalletSchema = z.object({
+  body: z.object({
+    exchange: z.string().optional(),
+    wallet: z.string().optional(),
+    account: z.string().optional()
+  }),
+});
+
+
+
 export const UserValidation = {
   userValidationSchema,
   changeStatusValidationSchema,
+  updateUserWalletSchema,
+  userWalletSchema
 };
