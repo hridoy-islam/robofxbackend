@@ -4,9 +4,9 @@ import { UserControllers } from './user.controller';
 // import auth from '../../middlewares/auth';
 
 const router = express.Router();
-router.get('/',   UserControllers.getAllUser);
-router.get('/:id',  UserControllers.getSingleUser);
+router.get('/', UserControllers.getAllUser);
+router.get('/:id', UserControllers.getSingleUser);
 
-router.patch('/:id',  UserControllers.updateUser);
+router.patch('/:id', UserControllers.updateUser);
 
 export const UserRoutes = router;

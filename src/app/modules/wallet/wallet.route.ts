@@ -10,7 +10,6 @@ router.get('/', WalletControllers.getAllWalletes);
 router.get('/:id', WalletControllers.getSingleWallet);
 router.post(
   '/',
-
   validateRequest(walletValidationSchema),
   WalletControllers.createWallet,
 );

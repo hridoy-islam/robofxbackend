@@ -35,16 +35,16 @@ const updateUser = catchAsync(async (req, res) => {
   });
 });
 
-const updateWallet = catchAsync(async (req, res) => {
-  const { id, wallet_id } = req.params;
-  const result = await UserServices.updateWallet(id, wallet_id, req.body);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Wallet is Updated succesfully',
-    data: result,
-  });
-});
+// const updateWallet = catchAsync(async (req, res) => {
+//   const { id, wallet_id } = req.params;
+//   const result = await UserServices.updateWallet(id, wallet_id, req.body);
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'Wallet is Updated succesfully',
+//     data: result,
+//   });
+// });
 
 const createWallet = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -61,6 +61,6 @@ export const UserControllers = {
   getAllUser,
   getSingleUser,
   updateUser,
-  updateWallet,
-  createWallet
+  //updateWallet,
+  createWallet,
 };
