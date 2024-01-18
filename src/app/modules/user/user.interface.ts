@@ -7,6 +7,7 @@ export type TUserPersonal = {
   lastName: string;
   email: string;
   phone: string;
+  photo: string;
 };
 export type TUserContact = {
   address: string;
@@ -24,6 +25,14 @@ export type TUserBilling = {
   country: string;
 };
 
+export type TUserWallet = [
+  {
+    exchange: string;
+    wallet: string;
+    account: string;
+  },
+];
+
 export interface TUser {
   _id: Types.ObjectId;
   email: string;
@@ -31,11 +40,12 @@ export interface TUser {
   role: 'user' | 'admin';
   status: 'pending' | 'approved' | 'blocked';
   isDeleted: boolean;
-  photo: string;
   agreement: string;
   personal_information: TUserPersonal;
   contact_information: TUserContact;
   billing_information: TUserBilling;
+  currency: string;
+  wallets?: TUserWallet;
 }
 
 export interface UserModel extends Model<TUser> {

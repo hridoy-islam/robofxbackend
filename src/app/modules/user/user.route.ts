@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import { UserControllers } from './user.controller';
 import auth from '../../middlewares/auth';
 
