@@ -5,7 +5,6 @@ import httpStatus from 'http-status';
 import { UserServices } from './user.service';
 
 const getAllUser: RequestHandler = catchAsync(async (req, res) => {
-  console.log('request handler', req);
   const result = await UserServices.getAllUserFromDB(req.query);
   sendResponse(res, {
     statusCode: httpStatus.OK,
