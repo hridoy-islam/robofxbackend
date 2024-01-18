@@ -17,4 +17,5 @@ export type TInvoice = {
   userid: Types.ObjectId;
   information: TInvoiceInformation;
   discount: number;
+  invoiceId: string;
 };

@@ -42,7 +42,7 @@ const checkLogin = async (payload: TLogin) => {
     );
     return {
       accessToken,
-      refreshToken,
+      refreshToken
     };
   } catch (error) {
     throw new AppError(httpStatus.NOT_FOUND, 'Email Or Password doesnt match');

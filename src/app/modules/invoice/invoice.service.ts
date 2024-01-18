@@ -3,10 +3,17 @@ import AppError from '../../errors/AppError';
 import { TInvoice } from './invoice.interface';
 import { Invoice } from './invoice.model';
 import QueryBuilder from '../../builder/QueryBuilder';
+import { generateInvoiceId } from './invoice.utils';
 
 const createInvoiceIntoDB = async (payload: TInvoice) => {
+
+  const id = await generateInvoiceId();
+  payload.invoiceId = id;
   const result = await Invoice.create(payload);
   return result;
+
+ 
+  
 };
 
 const getInvoiceFromDB = async (id: string) => {

@@ -9,11 +9,11 @@ import auth from '../../middlewares/auth';
 
 const router = express.Router();
 
-router.get('/', auth('admin', 'user'), InvoiceControllers.getAllInvoice);
+router.get('/',  InvoiceControllers.getAllInvoice);
 router.get('/:id', auth('admin', 'user'), InvoiceControllers.getSingleInvoice);
 router.post(
   '/',
-  auth('admin'),
+  // auth('admin'),
   validateRequest(createInvoiceValidationSchema),
   InvoiceControllers.createInvoice,
 );

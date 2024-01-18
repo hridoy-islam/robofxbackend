@@ -4,6 +4,7 @@ import { InvoiceCategory } from './invoice.constant';
 
 const invoiceShema = new Schema<TInvoice>(
   {
+    invoiceId : {type: String, required: true},
     category: {
       type: String,
       enum: {
