@@ -8,7 +8,7 @@ export type TInvoiceInformation = [
     quantity: number;
     rate: number;
     tax: number;
-    ammount: number;
+    amount: number;
   },
 ];
 

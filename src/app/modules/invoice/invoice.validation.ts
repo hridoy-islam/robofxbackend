@@ -6,7 +6,7 @@ const invoiceInformationSchema = z.object({
   quantity: z.number(),
   rate: z.number(),
   tax: z.number(),
-  ammount: z.number(),
+  amount: z.number(),
 });
 
 export const createInvoiceValidationSchema = z.object({
@@ -23,7 +23,7 @@ const updateInvoiceInformationSchema = z.object({
   quantity: z.number().optional(),
   rate: z.number().optional(),
   tax: z.number().optional(),
-  ammount: z.number().optional(),
+  amount: z.number().optional(),
   discount: z.number().optional(),
 });
 

@@ -23,7 +23,7 @@ const invoiceShema = new Schema<TInvoice>(
         quantity: { type: Number },
         rate: { type: Number },
         tax: { type: Number },
-        ammount: { type: Number },
+        amount: { type: Number },
         discount: { type: Number },
       },
     ],
