@@ -3,7 +3,7 @@ import { Types } from "mongoose";
 export type TWithdraw = {
     userid : Types.ObjectId;
     btc : string;
-    ammount: number;
+    amount: number;
     bank: string;
     speed: string;
     requestDate : string;
