@@ -11,6 +11,7 @@ export const rigValidationSchema = z.object({
     load: z.string(),
     power: z.string(),
     efficiency: z.number(),
+
     message: z.string(),
   }),
 });

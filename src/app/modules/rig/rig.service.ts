@@ -25,6 +25,7 @@ const createRigIntoDB = async (payload: TRig) => {
 
 const getSingleRigFromDB = async (id: string) => {
   const result = await Rig.findById(id);
+
   return result;
 };
 

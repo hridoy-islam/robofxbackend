@@ -12,6 +12,7 @@ const getAllRigs = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 const createRig = catchAsync(async (req, res) => {
   const result = await RigServices.createRigIntoDB(req.body);
   sendResponse(res, {
@@ -21,6 +22,7 @@ const createRig = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 
 const getSingleRig = catchAsync(async (req, res) => {
   const { id } = req.params;

@@ -8,9 +8,5 @@ router.get('/', UserControllers.getAllUser);
 router.get('/:id', UserControllers.getSingleUser);
 
 router.patch('/:id', UserControllers.updateUser);
-// router.get('/', auth('user', 'admin'), UserControllers.getAllUser);
-// router.get('/:id', auth('user', 'admin'), UserControllers.getSingleUser);
-
-// router.patch('/:id', auth('user', 'admin'), UserControllers.updateUser);
 
 export const UserRoutes = router;
