@@ -6,14 +6,10 @@ import QueryBuilder from '../../builder/QueryBuilder';
 import { generateInvoiceId } from './invoice.utils';
 
 const createInvoiceIntoDB = async (payload: TInvoice) => {
-
   const id = await generateInvoiceId();
   payload.invoiceId = id;
   const result = await Invoice.create(payload);
   return result;
-
- 
-  
 };
 
 const getInvoiceFromDB = async (id: string) => {
@@ -31,7 +27,10 @@ const updateInvoiceIntoDB = async (id: string, payload: Partial<TInvoice>) => {
 };
 
 const getAllInvoiceFromDB = async (query: Record<string, unknown>) => {
-  const invoiceQuery = new QueryBuilder(Invoice.find(), query)
+  const invoiceQuery = new QueryBuilder(
+    Invoice.find().populate('userid'),
+    query,
+  )
     .filter()
     .sort()
     .paginate()

@@ -5,13 +5,11 @@ import { rigValidationSchema } from './rig.validation';
 
 const router = express.Router();
 
-router.get('/', RigControllers.getAllRigs);
-router.get('/:id', RigControllers.getSingleRig);
-router.post(
-  '/',
-  validateRequest(rigValidationSchema),
-  RigControllers.createRig,
-);
-router.patch('/:id', RigControllers.updateRig);
+router.get("/", RigControllers.getAllRigs)
+router.get('/:id', RigControllers.getSingleRig)
+router.post('/', RigControllers.createRig)
+router.patch('/:id', RigControllers.updateRig)
 
-export const RigRoutes = router;
+
+export const RigRoutes = router
+

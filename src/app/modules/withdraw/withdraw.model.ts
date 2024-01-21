@@ -1,17 +1,16 @@
-import { Schema, model } from "mongoose";
-import { TWithdraw } from "./withdraw.interface";
-
+import { Schema, model } from 'mongoose';
+import { TWithdraw } from './withdraw.interface';
 
 const withdrawSchema = new Schema<TWithdraw>({
-    userid : {type: Schema.Types.ObjectId, required: true},
-    btc : {type: String, required: [true, 'BTC is required']},
-    amount: {type: Number, required: [true, 'amount is required']},
-    bank: {type: String, required: [true, 'Bank is required']},
-    speed: {type: String, required: [true, 'Speed is required']},
-    requestDate : {type: String, required: [true, 'Request Date is required']},
-    status:{type: String, default : 'pending'},
-    efficiency: {type: String, required: [true, 'efficiency is required']},
-    message: {type: String, required: [true, 'message is required']}
-})
+  userid: { type: Schema.Types.ObjectId, required: true }, //
+  btc: { type: String, required: [true, 'BTC is required'] }, //
+  amount: { type: Number, required: [true, 'amount is required'] }, //
+  bank: { type: String },
+  speed: { type: String },
+  requestDate: { type: String }, //
+  status: { type: String, default: 'pending' },
+  efficiency: { type: String },
+  message: { type: String },
+});
 
-export const Withdraw = model('Withdraw', withdrawSchema)
+export const Withdraw = model('Withdraw', withdrawSchema);

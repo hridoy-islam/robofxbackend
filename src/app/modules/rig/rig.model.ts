@@ -5,15 +5,15 @@ const rigSchema = new Schema<TRig>({
   userid: {
     type: Schema.Types.ObjectId,
     required: [true, 'User Id is required'],
-    ref: 'User',
   },
+  rigName: { type: String },
   gpu: { type: String },
   status: { type: String },
   temp: { type: String },
-  speed: { type: String },
+  fan: { type: String },
   load: { type: String },
   power: { type: String },
-  efficiency: { type: String },
+  efficiency: { type: Number },
   message: { type: String },
 });
 

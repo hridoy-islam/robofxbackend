@@ -4,7 +4,7 @@ import { InvoiceCategory } from './invoice.constant';
 
 const invoiceShema = new Schema<TInvoice>(
   {
-    invoiceId : {type: String, required: true},
+    invoiceId: { type: String, required: true },
     category: {
       type: String,
       enum: {
@@ -16,6 +16,7 @@ const invoiceShema = new Schema<TInvoice>(
     userid: {
       type: Schema.Types.ObjectId,
       required: [true, 'User ID is required'],
+      ref: 'User',
     },
     information: [
       {

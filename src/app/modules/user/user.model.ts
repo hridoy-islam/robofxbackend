@@ -4,6 +4,7 @@ import { Schema, model } from 'mongoose';
 import config from '../../config';
 import { UserStatus } from './user.constant';
 import { TUser, UserModel } from './user.interface';
+
 const userSchema = new Schema<TUser, UserModel>(
   {
     email: {
@@ -53,6 +54,10 @@ const userSchema = new Schema<TUser, UserModel>(
       country: { type: String },
     },
     currency: {
+      type: String,
+      default: 'USD',
+    },
+    primary_account: {
       type: String,
       default: 'USD',
     },

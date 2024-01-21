@@ -3,6 +3,16 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { RigServices } from './rig.service';
 
+const getAllRigs = catchAsync(async (req, res) => {
+  const result = await RigServices.getAllRigsFromDB(req.query);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Rig Retrived Successfully',
+    data: result,
+  });
+});
+
 const createRig = catchAsync(async (req, res) => {
   const result = await RigServices.createRigIntoDB(req.body);
   sendResponse(res, {
@@ -13,16 +23,6 @@ const createRig = catchAsync(async (req, res) => {
   });
 });
 
-const getAllRigs = catchAsync(async (req, res) => {
-  const result = await RigServices.getAllRigsFromDB();
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Rigs Retrived Successfully',
-    data: result,
-  });
-});
 
 const getSingleRig = catchAsync(async (req, res) => {
   const { id } = req.params;

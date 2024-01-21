@@ -1,13 +1,14 @@
-import { Types } from "mongoose";
+import { Types } from 'mongoose';
 
 export type TRig = {
-    userid: Types.ObjectId;
-    gpu: string;
-    status: string;
-    temp: string;
-    speed: string; 
-    load: string; 
-    power: string; 
-    efficiency: string; 
-    message: string;
-}
+  userid: Types.ObjectId;
+  rigName: string;
+  gpu: string;
+  status: string;
+  temp: string;
+  fan: string;
+  load: string;
+  power: string;
+  efficiency: number;
+  message: string;
+};
