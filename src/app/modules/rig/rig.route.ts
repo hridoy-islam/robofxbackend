@@ -4,6 +4,7 @@ import { RigControllers } from './rig.controller';
 const router = express.Router();
 
 
+router.get("/", RigControllers.getAllRigs)
 router.get('/:id', RigControllers.getSingleRig)
 router.post('/', RigControllers.createRig)
 router.patch('/:id', RigControllers.updateRig)

@@ -45,6 +45,7 @@ export interface TUser {
   contact_information: TUserContact;
   billing_information: TUserBilling;
   currency: string;
+  primary_account: string;
   wallets?: TUserWallet;
 }
 
