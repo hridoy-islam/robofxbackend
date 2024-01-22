@@ -27,7 +27,8 @@ const getAllWithDrawFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleWithDrawFromDB = async (id: string) => {
-  const result = await Withdraw.findById(id);
+  const result = await Withdraw.findById(id).populate('userid');
+
   return result;
 };
 
