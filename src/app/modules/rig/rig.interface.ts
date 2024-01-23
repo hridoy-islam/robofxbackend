@@ -4,7 +4,7 @@ export type TRig = {
   userid: Types.ObjectId;
   rigName: string;
   gpu: string;
-  status: string;
+  status: 'pause' | 'mining';
   temp: string;
   fan: string;
   load: string;

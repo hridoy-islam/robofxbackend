@@ -9,6 +9,7 @@ import { EchangeRoutes } from '../modules/exchange/exchange.route';
 import { WalleteRoutes } from '../modules/wallet/wallet.route';
 import { SettingsRoutes } from '../modules/settings/settings.route';
 import { InvoiceRoutes } from '../modules/invoice/invoice.route';
+import { RigHistoryRoutes } from '../modules/rigHistory/rigHistory.route';
 
 const router = Router();
 
@@ -52,6 +53,10 @@ const moduleRoutes = [
   {
     path: '/invoices',
     route: InvoiceRoutes,
+  },
+  {
+    path: '/history',
+    route: RigHistoryRoutes,
   },
 ];
 

@@ -5,7 +5,7 @@ export const rigValidationSchema = z.object({
     userid: z.string(),
     rigName: z.string(),
     gpu: z.string(),
-    status: z.string(),
+    status: z.enum(['pause', 'mining']),
     temp: z.string(),
     fan: z.string(),
     load: z.string(),

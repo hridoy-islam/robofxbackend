@@ -23,7 +23,6 @@ const createRig = catchAsync(async (req, res) => {
   });
 });
 
-
 const getSingleRig = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await RigServices.getSingleRigFromDB(id);
