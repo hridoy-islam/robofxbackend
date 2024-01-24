@@ -2,6 +2,8 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { Rig } from '../rig/rig.model';
 import RigHistory from './rigHistory.model';
+import moment from 'moment'
+import mongoose from 'mongoose';
 
 const pauseRigToDB = async (rigid: string) => {
   try {
@@ -50,27 +52,17 @@ const startRigIntoDB = async (rigid: string) => {
 };
 
 const rigDurationFromDB = async (userid: string) => {
+  const startToday = moment().startOf('day').toDate()
+  const endToday = moment(startToday).endOf('day').toDate()
+
   try {
-    const endTimeOf24Hours = new Date();
-    const startTimeOf24Hours = new Date(
-      endTimeOf24Hours.getTime() - 24 * 60 * 60 * 1000,
-    );
+    const totalDuration = (await RigHistory.find({userid, createdAt: { $gte: startToday, $lte: endToday },}).select('duration'));
+    // Using reduce to calculate the total amount spent
+    const totalAmount = totalDuration?.reduce((accumulator, totalDuration) => {
+      return accumulator + totalDuration?.duration;
+    }, 0);
 
-    const totalDuration = await RigHistory.aggregate([
-      {
-        $match: {
-          userid,
-          createdAt: { $gte: startTimeOf24Hours, $lte: endTimeOf24Hours },
-        },
-      },
-      { $group: { _id: null, total: { $sum: '$duration' } } },
-    ]);
-
-    console.log('totalDuration:', totalDuration);
-
-    return {
-      totalDuration: totalDuration.length > 0 ? totalDuration[0].total : 0,
-    };
+    return  totalAmount;
   } catch (error) {
     throw new AppError(httpStatus.NOT_FOUND, 'Rig not found');
   }
@@ -110,6 +102,8 @@ const startallrigs = async (userid: string) => {
         });
         if (historyEntry) {
           historyEntry.startTime = startTime;
+          historyEntry.duration = (historyEntry.startTime.getTime() - historyEntry.pauseTime.getTime()) /
+            1000;
           await historyEntry.save();
         }
         return historyEntry;

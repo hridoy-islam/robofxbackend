@@ -53,7 +53,7 @@ const startall = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'All Rigs Paused succesfully',
+    message: 'All Rigs Started succesfully',
     data: result,
   });
 });
