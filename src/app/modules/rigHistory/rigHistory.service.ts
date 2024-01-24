@@ -51,23 +51,21 @@ const startRigIntoDB = async (rigid: string) => {
 };
 
 const rigDurationFromDB = async (userid: string) => {
-  const startToday = moment().startOf('day').toDate();
-  const endToday = moment(startToday).endOf('day').toDate();
-
-  try {
-    const totalDuration = await RigHistory.find({
-      userid,
-      createdAt: { $gte: startToday, $lte: endToday },
-    }).select('duration');
-    // Using reduce to calculate the total amount spent
-    const totalAmount = totalDuration?.reduce((accumulator, totalDuration) => {
-      return accumulator + totalDuration?.duration;
-    }, 0);
-
-    return totalAmount;
-  } catch (error) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Rig not found');
-  }
+  // const startToday = moment().startOf('day').toDate();
+  // const endToday = moment(startToday).endOf('day').toDate();
+  // try {
+  //   const totalDuration = await RigHistory.find({
+  //     userid,
+  //     createdAt: { $gte: startToday, $lte: endToday },
+  //   }).select('duration');
+  //   // Using reduce to calculate the total amount spent
+  //   const totalAmount = totalDuration?.reduce((accumulator, totalDuration) => {
+  //     return accumulator + totalDuration?.duration;
+  //   }, 0);
+  //   return totalAmount;
+  // } catch (error) {
+  //   throw new AppError(httpStatus.NOT_FOUND, 'Rig not found');
+  // }
 };
 
 const pauseallrigs = async (userid: string) => {
