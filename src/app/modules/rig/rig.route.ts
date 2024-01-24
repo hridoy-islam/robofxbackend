@@ -9,3 +9,24 @@ router.post('/', RigControllers.createRig);
 router.patch('/:id', RigControllers.updateRig);
 
 export const RigRoutes = router;
+
+/*
+duration - 1 hours
+
+route - /userid/rigs_pause
+      - /userid/rigs_start
+
+schema 
+history:
+[
+    {
+        rigid,
+        userid,
+        pausetime,
+        starttime,
+        duration,
+        timestamp: true
+    }
+]
+
+*/
