@@ -27,6 +27,9 @@ const userSchema = new Schema<TUser, UserModel>(
       enum: UserStatus,
       default: 'pending',
     },
+    message: {
+      type: String,
+    },
     isDeleted: {
       type: Boolean,
       default: false,
