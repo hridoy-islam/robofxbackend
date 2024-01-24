@@ -12,6 +12,12 @@ const pauseRigToDB = async (rigid: string) => {
       throw new AppError(httpStatus.NOT_FOUND, 'Rig not found');
     }
 
+    const rigStatusUpdate = await Rig.findByIdAndUpdate(rigid, { status: 'pause' })
+
+    if (!rigStatusUpdate) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Rig not found');
+    }
+
     const pauseTime = new Date();
     const historyEntry = await RigHistory.create({
       rigid: rig._id,
@@ -29,6 +35,12 @@ const startRigIntoDB = async (rigid: string) => {
     const rig = await Rig.findById(rigid);
     if (!rig) {
       throw new AppError(httpStatus.NOT_FOUND, 'Rig not found');
+    }
+
+    const rigStatusUpdate = await Rig.findByIdAndUpdate(rigid, { status: 'mining' })
+
+    if (!rigStatusUpdate) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Rig status update not found');
     }
 
     const historyEntry = await RigHistory.findOne({
@@ -55,23 +67,38 @@ const rigDurationFromDB = async (userid: string) => {
   const startToday = moment().startOf('day').toDate()
   const endToday = moment(startToday).endOf('day').toDate()
 
-  try {
-    const totalDuration = (await RigHistory.find({userid, createdAt: { $gte: startToday, $lte: endToday },}).select('duration'));
-    // Using reduce to calculate the total amount spent
-    const totalAmount = totalDuration?.reduce((accumulator, totalDuration) => {
-      return accumulator + totalDuration?.duration;
-    }, 0);
+  const d =  await RigHistory.aggregate([{ $match: { userid, startTime : {$exists: true}}}]).
+  exec();
 
-    return  totalAmount;
-  } catch (error) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Rig not found');
-  }
+  
+
+  return d;
+
+  // try {
+  //   const rigs = await Rig.find({userid}).select('rigid');
+  //   console.log(rigs);
+  //   const totalDuration = (await RigHistory.find({userid, createdAt: { $gte: startToday, $lte: endToday },}).select('duration'));
+  //   // Using reduce to calculate the total amount spent
+  //   const totalAmount = totalDuration?.reduce((accumulator, totalDuration) => {
+  //     return accumulator + totalDuration?.duration;
+  //   }, 0);
+
+  //   return  totalAmount;
+  // } catch (error) {
+  //   throw new AppError(httpStatus.NOT_FOUND, 'Rig not found');
+  // }
 };
 
 const pauseallrigs = async (userid: string) => {
   try {
     const pauseTime = new Date();
     const rigs = await Rig.find({ userid });
+
+    const updateStatus = await Rig.updateMany({ userid }, { status: 'pause' })
+
+    if (!updateStatus) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Rig update Status issue');
+    }
 
     const historyEntries = await Promise.all(
       rigs.map(async (rig) => {
@@ -93,6 +120,12 @@ const startallrigs = async (userid: string) => {
   try {
     const startTime = new Date();
     const rigs = await Rig.find({ userid });
+
+    const updateStatus = await Rig.updateMany({ userid }, { status: 'mining' })
+
+    if (!updateStatus) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Rig update Status issue');
+    }
 
     const historyEntries = await Promise.all(
       rigs.map(async (rig) => {
