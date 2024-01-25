@@ -9,18 +9,17 @@ import catchAsync from '../utils/catchAsync';
 
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization;
+    const token = req.headers.authorization?.split(' ')[1];
 
     // checking if the token is missing
     if (!token) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!');
     }
+    const decoded = jwt.verify(token, config.jwt_access_secret as string)
+    // const decoded = jwt.verify(token, config.jwt_access_secret as string) as JwtPayload
 
     // checking if the given token is valid
-    const decoded = jwt.verify(
-      token,
-      config.jwt_access_secret as string,
-    ) as JwtPayload;
+   
 
     const { email, role } = decoded;
 
@@ -33,11 +32,11 @@ const auth = (...requiredRoles: TUserRole[]) => {
     // checking if the user is already deleted
 
     // checking if the user is blocked
-    const userStatus = user?.isDeleted;
+    // const userStatus = user?.isDeleted;
 
-    if (!userStatus) {
-      throw new AppError(httpStatus.FORBIDDEN, 'This user is Deleted ! !');
-    }
+    // if (!userStatus) {
+    //   throw new AppError(httpStatus.FORBIDDEN, 'This user is Deleted ! !');
+    // }
 
     if (requiredRoles && !requiredRoles.includes(role)) {
       throw new AppError(

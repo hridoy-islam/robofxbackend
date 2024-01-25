@@ -25,24 +25,33 @@ const checkLogin = async (payload: TLogin) => {
     if (!(await User.isPasswordMatched(payload?.password, foundUser?.password)))
       throw new AppError(httpStatus.FORBIDDEN, 'Password do not matched');
 
-    const jwtPayload = {
-      id: foundUser?._id,
-      email: foundUser.email,
-      role: foundUser.role,
-    };
-    const accessToken = createToken(
-      jwtPayload,
-      config.jwt_access_secret as string,
-      config.jwt_access_expires_in as string,
-    );
-    const refreshToken = createToken(
-      jwtPayload,
-      config.jwt_refresh_secret as string,
-      config.jwt_refresh_expires_in as string,
-    );
+    // const jwtPayload = {
+    //   id: foundUser?._id,
+    //   email: foundUser.email,
+    //   role: foundUser.role,
+    // };
+    // const accessToken = createToken(
+    //   jwtPayload,
+    //   config.jwt_access_secret as string,
+    //   config.jwt_access_expires_in as string,
+    // );
+    // const refreshToken = createToken(
+    //   jwtPayload,
+    //   config.jwt_refresh_secret as string,
+    //   config.jwt_refresh_expires_in as string,
+    // );
+
+    const accessToken = jwt.sign({ 
+      _id: foundUser._id?.toString(), 
+      email: foundUser?.email,
+      role: foundUser?.role
+    }, `${config.jwt_access_secret}`, {
+      expiresIn: '2 days',
+    });
+
+
     return {
-      accessToken,
-      refreshToken
+      accessToken
     };
   } catch (error) {
     throw new AppError(httpStatus.NOT_FOUND, 'Email Or Password doesnt match');

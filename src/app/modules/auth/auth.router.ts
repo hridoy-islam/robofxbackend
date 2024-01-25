@@ -2,6 +2,7 @@ import express from 'express';
 import { AuthControllers } from './authController';
 import validateRequest from '../../middlewares/validateRequest';
 import { AuthValidations } from './auth.validation';
+import auth from '../../middlewares/auth';
 // import auth from '../../middlewares/auth';
 const router = express.Router();
 
@@ -12,6 +13,7 @@ router.post(
 );
 router.post(
   '/create-user',
+  auth('admin'),
   validateRequest(AuthValidations.createUserValidationSchema),
   AuthControllers.createUser,
 );

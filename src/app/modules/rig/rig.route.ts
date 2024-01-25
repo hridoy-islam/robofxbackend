@@ -1,32 +1,15 @@
 import express from 'express';
 import { RigControllers } from './rig.controller';
+import auth from '../../middlewares/auth';
+import validateRequest from '../../middlewares/validateRequest';
+import { rigValidationSchema, updateRigValidationSchema } from './rig.validation';
 
 const router = express.Router();
 
-router.get('/', RigControllers.getAllRigs);
-router.get('/:id', RigControllers.getSingleRig);
-router.post('/', RigControllers.createRig);
-router.patch('/:id', RigControllers.updateRig);
+router.get('/', auth('user', 'admin'), RigControllers.getAllRigs);
+router.get('/:id', auth('user', 'admin'), RigControllers.getSingleRig);
+router.post('/', auth('admin'), validateRequest(rigValidationSchema), RigControllers.createRig);
+router.patch('/:id',auth('admin'), validateRequest(updateRigValidationSchema), RigControllers.updateRig);
 
 export const RigRoutes = router;
 
-/*
-duration - 1 hours
-
-route - /userid/rigs_pause
-      - /userid/rigs_start
-
-schema 
-history:
-[
-    {
-        rigid,
-        userid,
-        pausetime,
-        starttime,
-        duration,
-        timestamp: true
-    }
-]
-
-*/

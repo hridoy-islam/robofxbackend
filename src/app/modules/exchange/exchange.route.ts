@@ -6,22 +6,22 @@ import auth from '../../middlewares/auth';
 
 const router = express.Router();
 
-router.get('/', ExchangeControllers.getAllExchanges);
+router.get('/', auth('admin', 'user'), ExchangeControllers.getAllExchanges);
 router.get(
   '/:id',
-
+  auth('admin', 'user'),
   ExchangeControllers.getSingleExchanges,
 );
 router.post(
   '/',
-
+  auth('admin'),
   validateRequest(exchangeValidationSchema),
   ExchangeControllers.createExchange,
 );
 
 router.patch(
   '/:id',
-
+  auth('admin'),
   validateRequest(exchangeValidationSchema),
   ExchangeControllers.updateExchange,
 );

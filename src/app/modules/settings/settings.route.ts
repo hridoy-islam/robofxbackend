@@ -6,7 +6,7 @@ import auth from '../../middlewares/auth';
 
 const router = express.Router();
 
-router.get('/', SettingsControllers.getSettings);
+router.get('/', auth('admin', 'user'), SettingsControllers.getSettings);
 // router.post(
 //   '/',
 //   validateRequest(settingsValidationSchema),
