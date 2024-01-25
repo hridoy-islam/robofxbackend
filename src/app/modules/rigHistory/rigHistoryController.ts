@@ -51,7 +51,6 @@ const startall = catchAsync(async (req, res) => {
 export const RigHisotyControllers = {
   pauseRig,
   startRig,
-  getDurationForDay,
   pauseall,
   startall,
 };
