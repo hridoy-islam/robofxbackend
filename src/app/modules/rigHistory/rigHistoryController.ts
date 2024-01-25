@@ -25,16 +25,6 @@ const startRig = catchAsync(async (req, res) => {
   });
 });
 
-const getDurationForDay = catchAsync(async (req, res) => {
-  const { userid } = req.params;
-  const result = await RigHistoryServices.rigDurationFromDB(userid);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Rig Duration Calculated succesfully',
-    data: result,
-  });
-});
 
 const pauseall = catchAsync(async (req, res) => {
   const { userid } = req.params;
