@@ -10,6 +10,14 @@ const pauseRigToDB = async (rigid: string) => {
       throw new AppError(httpStatus.NOT_FOUND, 'Rig not found');
     }
 
+    const rigStatusUpdate = await Rig.findByIdAndUpdate(rigid, {
+      status: 'pause',
+    });
+
+    if (!rigStatusUpdate) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Rig not found');
+    }
+
     const pauseTime = new Date();
     const historyEntry = await RigHistory.create({
       rigid: rig._id,
@@ -27,6 +35,14 @@ const startRigIntoDB = async (rigid: string) => {
     const rig = await Rig.findById(rigid);
     if (!rig) {
       throw new AppError(httpStatus.NOT_FOUND, 'Rig not found');
+    }
+
+    const rigStatusUpdate = await Rig.findByIdAndUpdate(rigid, {
+      status: 'mining',
+    });
+
+    if (!rigStatusUpdate) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Rig status update not found');
     }
 
     const historyEntry = await RigHistory.findOne({
@@ -54,6 +70,12 @@ const pauseallrigs = async (userid: string) => {
     const pauseTime = new Date();
     const rigs = await Rig.find({ userid });
 
+    const updateStatus = await Rig.updateMany({ userid }, { status: 'pause' });
+
+    if (!updateStatus) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Rig update Status issue');
+    }
+
     const historyEntries = await Promise.all(
       rigs.map(async (rig) => {
         return await RigHistory.create({
@@ -74,6 +96,12 @@ const startallrigs = async (userid: string) => {
   try {
     const startTime = new Date();
     const rigs = await Rig.find({ userid });
+
+    const updateStatus = await Rig.updateMany({ userid }, { status: 'mining' });
+
+    if (!updateStatus) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Rig update Status issue');
+    }
 
     const historyEntries = await Promise.all(
       rigs.map(async (rig) => {

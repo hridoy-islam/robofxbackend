@@ -29,6 +29,7 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     message: {
       type: String,
+      default: "Your Account is Pending Activation"
     },
     isDeleted: {
       type: Boolean,
