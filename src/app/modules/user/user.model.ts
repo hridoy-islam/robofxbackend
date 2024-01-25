@@ -71,6 +71,9 @@ const userSchema = new Schema<TUser, UserModel>(
         account: { type: String },
       },
     ],
+    balance: { type: Number },
+    grossBalance: { type: Number },
+    btc: { type: Number },
   },
   {
     timestamps: true,

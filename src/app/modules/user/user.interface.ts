@@ -48,6 +48,9 @@ export interface TUser {
   primary_account: string;
   wallets?: TUserWallet;
   message?: string;
+  balance?: number;
+  grossBalance?: number;
+  btc?: number;
 }
 
 export interface UserModel extends Model<TUser> {
