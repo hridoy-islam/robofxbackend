@@ -36,7 +36,7 @@ const updateWithdrawIntoDB = async (
   id: string,
   payload: Partial<TWithdraw>,
 ) => {
-  const result = await Withdraw.findByIdAndUpdate(id, payload);
+  const result = await Withdraw.findByIdAndUpdate(id, payload, { new: true });
   return result;
 };
 

@@ -38,7 +38,7 @@ export interface TUser {
   email: string;
   password: string;
   role: 'user' | 'admin';
-  status: 'pending' | 'approved' | 'blocked';
+  status: 'pending' | 'approved';
   isDeleted: boolean;
   agreement: string;
   personal_information: TUserPersonal;
