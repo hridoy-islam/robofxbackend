@@ -51,6 +51,7 @@ export interface TUser {
   balance?: number;
   grossBalance?: number;
   btc?: number;
+  profit?: number;
 }
 
 export interface UserModel extends Model<TUser> {

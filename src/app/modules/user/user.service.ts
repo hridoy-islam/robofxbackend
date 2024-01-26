@@ -78,34 +78,9 @@ const addNewWallet = async (id: string, payload: TUserWallet) => {
   }
 };
 
-const updateWallet = async () =>
-  // id: string,
-  // wallet_id: string,
-  // payload: TUserWallet,
-  {
-    // try {
-    // let entries = Object.keys(payload)
-    // console.log(typeof payload)
-    // const updateWalletList = await User.findByIdAndUpdate({
-    //   _id: id,
-    //   wallets?._id : wallet_id,
-    // },
-    // {
-    //   $set: payload
-    // });
-    //   if (updateWalletList) {
-    //     const updatedWallet = await User.findOne({ _id: id });
-    //     return updatedWallet;
-    //   } else throw new AppError(httpStatus.NOT_FOUND, 'Wallet Update Error.');
-    // } catch (error) {
-    //   throw new AppError(httpStatus.NOT_FOUND, 'Wallet Update Error.');
-    // }
-  };
-
 export const UserServices = {
   getAllUserFromDB,
   getSingleUserFromDB,
   updateUserIntoDB,
-  updateWallet,
   addNewWallet,
 };

@@ -13,6 +13,9 @@ import moment from 'moment';
 import RigHistory from './app/modules/rigHistory/rigHistory.model';
 import { Rig } from './app/modules/rig/rig.model';
 import { User } from './app/modules/user/user.model';
+import mongoose from 'mongoose';
+import AppError from './app/errors/AppError';
+import httpStatus from 'http-status';
 
 const app: Application = express();
 
@@ -36,19 +39,14 @@ app.use(globalErrorHandler);
 //Not Found
 app.use(notFound);
 
-// cron.schedule('0 0 * * *', async () => {
-
-// }
-
-cron.schedule('3 * * * * *', async () => {
-  console.log('Running a job at every ten second');
+cron.schedule('0 0 * * *', async () => {
   const startToday = moment().startOf('day').toDate();
   const endToday = moment(startToday).endOf('day').toDate();
 
   const aggregatedData = await RigHistory.aggregate([
     {
       $match: {
-        createdAt: { $gte: startToday, $lte: endToday },
+        startTime: { $gte: startToday, $lte: endToday },
       },
     },
     {
@@ -71,23 +69,32 @@ cron.schedule('3 * * * * *', async () => {
   ]);
 
   aggregatedData.forEach(async (rigData) => {
-    const rigId = rigData._id;
+    const rigId = rigData.rigId;
     const totalInactiveTime = rigData.totalDuration;
     const userId = rigData.userid;
+
+    const user = await User.findById(userId, { status: 'active' }).select(
+      'profit',
+    );
+
+    const userProfit = Number(user?.profit);
+
+    console.log(userProfit);
 
     // Update rig efficiency based on the total duration
     const totalActiveTime = 24 * 60 * 60 - totalInactiveTime;
     const efficiencyIncrement = totalActiveTime * 0.00008;
-    const profit = totalActiveTime * 1.47;
+    const profit = totalActiveTime * userProfit;
 
     await Rig.updateOne(
-      { _id: rigId },
+      { _id: new mongoose.Types.ObjectId(rigId) },
       { $inc: { efficiency: efficiencyIncrement } },
     );
+
     // Update any other necessary data
 
     await User.updateOne(
-      { _id: userId, status: 'active' },
+      { _id: new mongoose.Types.ObjectId(userId), status: 'active' },
       {
         $inc: {
           balance: profit,
