@@ -29,7 +29,7 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     message: {
       type: String,
-      default: "Your Account is Pending Activation"
+      default: 'Your Account is Pending Activation',
     },
     isDeleted: {
       type: Boolean,
@@ -75,6 +75,7 @@ const userSchema = new Schema<TUser, UserModel>(
     balance: { type: Number },
     grossBalance: { type: Number },
     btc: { type: Number },
+    profit: { type: Number },
   },
   {
     timestamps: true,
