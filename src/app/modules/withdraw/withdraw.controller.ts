@@ -36,8 +36,7 @@ const getSingleWithdraw = catchAsync(async (req, res) => {
 
 const updateWithdraw = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const { payload } = req.body;
-  const result = await WithdrawServices.updateWithdrawIntoDB(id, payload);
+  const result = await WithdrawServices.updateWithdrawIntoDB(id, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

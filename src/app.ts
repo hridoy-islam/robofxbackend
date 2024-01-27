@@ -85,8 +85,6 @@ cron.schedule('0 0 * * *', async () => {
 
     const userProfit = Number(user?.profit);
 
-    console.log(userProfit);
-
     // Update rig efficiency based on the total duration
     const totalActiveTime = 24 * 60 * 60 - totalInactiveTime;
     const efficiencyIncrement = totalActiveTime * 0.00008;

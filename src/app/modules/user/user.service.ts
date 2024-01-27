@@ -57,6 +57,7 @@ const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
   const result = await User.findByIdAndUpdate(id, modifiedUpdatedData, {
     new: true,
     runValidators: true,
+    upsert: true,
   });
 
   return result;

@@ -1,4 +1,6 @@
+import httpStatus from 'http-status';
 import QueryBuilder from '../../builder/QueryBuilder';
+import AppError from '../../errors/AppError';
 import { TWithdraw } from './withdraw.interface';
 import { Withdraw } from './withdraw.model';
 
@@ -36,6 +38,10 @@ const updateWithdrawIntoDB = async (
   id: string,
   payload: Partial<TWithdraw>,
 ) => {
+  const withdraw = await Withdraw.findById(id);
+  if (!withdraw) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Withdraw Not Found');
+  }
   const result = await Withdraw.findByIdAndUpdate(id, payload, { new: true });
   return result;
 };
