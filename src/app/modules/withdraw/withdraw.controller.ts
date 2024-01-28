@@ -45,9 +45,21 @@ const updateWithdraw = catchAsync(async (req, res) => {
   });
 });
 
+const approveWithDraw = catchAsync(async (req, res) => {
+  const { id, userid } = req.params;
+  const result = await WithdrawServices.withdrawApprove(id, userid);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Withdraw Approved succesfully',
+    data: result,
+  });
+});
+
 export const WithdrawControllers = {
   createWithdraw,
   getAllWithdraw,
   getSingleWithdraw,
   updateWithdraw,
+  approveWithDraw,
 };

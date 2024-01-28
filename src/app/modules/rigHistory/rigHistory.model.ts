@@ -9,6 +9,7 @@ const rigHistorySchema = new Schema<TRigHistory>(
     pauseTime: { type: Date, required: true },
     startTime: { type: Date },
     duration: { type: Number, default: 0 },
+    payouts: { type: Number },
   },
   {
     timestamps: true,

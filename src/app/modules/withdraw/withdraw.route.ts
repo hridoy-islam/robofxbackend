@@ -3,7 +3,6 @@ import { WithdrawControllers } from './withdraw.controller';
 import validateRequest from '../../middlewares/validateRequest';
 import { withdrawValidationSchema } from './withdraw.validation';
 import auth from '../../middlewares/auth';
-// import auth from '../../middlewares/auth';
 
 const router = express.Router();
 
@@ -20,5 +19,7 @@ router.post(
   WithdrawControllers.createWithdraw,
 );
 router.patch('/:id', auth('admin'), WithdrawControllers.updateWithdraw);
+
+router.post('/:id/:userid', auth('admin'), WithdrawControllers.approveWithDraw);
 
 export const WithdrawRoutes = router;

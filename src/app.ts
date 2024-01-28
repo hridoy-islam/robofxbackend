@@ -16,6 +16,7 @@ import { User } from './app/modules/user/user.model';
 import mongoose from 'mongoose';
 import AppError from './app/errors/AppError';
 import httpStatus from 'http-status';
+import { Payout } from './app/modules/payouts/payout.model';
 
 const app: Application = express();
 
@@ -45,7 +46,8 @@ app.use(globalErrorHandler);
 //Not Found
 app.use(notFound);
 
-cron.schedule('0 0 * * *', async () => {
+// cron.schedule('0 0 * * *', async () => {
+cron.schedule('* 1 * * *', async () => {
   const startToday = moment().startOf('day').toDate();
   const endToday = moment(startToday).endOf('day').toDate();
 
@@ -67,7 +69,7 @@ cron.schedule('0 0 * * *', async () => {
     {
       $project: {
         _id: 0, // Exclude the default _id field
-        rigId: '$_id.rigid',
+        rigid: '$_id.rigid',
         userid: '$_id.userid',
         totalDuration: 1,
       },
@@ -75,11 +77,11 @@ cron.schedule('0 0 * * *', async () => {
   ]);
 
   aggregatedData.forEach(async (rigData) => {
-    const rigId = rigData.rigId;
+    const rigid = rigData.rigid;
     const totalInactiveTime = rigData.totalDuration;
-    const userId = rigData.userid;
+    const userid = rigData.userid;
 
-    const user = await User.findById(userId, { status: 'active' }).select(
+    const user = await User.findById(userid, { status: 'active' }).select(
       'profit',
     );
 
@@ -90,15 +92,15 @@ cron.schedule('0 0 * * *', async () => {
     const efficiencyIncrement = totalActiveTime * 0.00008;
     const profit = totalActiveTime * userProfit;
 
-    await Rig.updateOne(
-      { _id: new mongoose.Types.ObjectId(rigId) },
+    const rigdb = await Rig.updateOne(
+      { _id: new mongoose.Types.ObjectId(rigid) },
       { $inc: { efficiency: efficiencyIncrement } },
     );
 
     // Update any other necessary data
 
-    await User.updateOne(
-      { _id: new mongoose.Types.ObjectId(userId), status: 'active' },
+    const userdb = await User.updateOne(
+      { _id: new mongoose.Types.ObjectId(userid), status: 'active' },
       {
         $inc: {
           balance: profit,
@@ -106,6 +108,12 @@ cron.schedule('0 0 * * *', async () => {
         },
       },
     );
+    const payoutsData = {
+      rigid,
+      userid,
+      amount: profit,
+    };
+    const payoutdb = await Payout.create(payoutsData);
   });
 });
 

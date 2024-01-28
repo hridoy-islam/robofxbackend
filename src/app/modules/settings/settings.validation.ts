@@ -5,6 +5,7 @@ export const settingsValidationSchema = z.object({
     usd: z.number().optional(),
     inr: z.number().optional(),
     btc: z.number().optional(),
-    euro: z.number().optional()
+    euro: z.number().optional(),
+    usdt: z.number().optional(),
   }),
 });

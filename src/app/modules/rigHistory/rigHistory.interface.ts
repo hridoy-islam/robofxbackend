@@ -6,4 +6,5 @@ export type TRigHistory = {
   pauseTime: Date;
   startTime?: Date;
   duration?: number;
+  payouts?: number;
 };

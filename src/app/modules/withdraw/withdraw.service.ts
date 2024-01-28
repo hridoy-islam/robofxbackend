@@ -3,6 +3,7 @@ import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import { TWithdraw } from './withdraw.interface';
 import { Withdraw } from './withdraw.model';
+import { User } from '../user/user.model';
 
 const createWithDrawToDB = async (payload: TWithdraw) => {
   const result = await Withdraw.create(payload);
@@ -46,9 +47,36 @@ const updateWithdrawIntoDB = async (
   return result;
 };
 
+const withdrawApprove = async (id: string, userid: string) => {
+  const withdraw = await Withdraw.findById(id);
+  const user = await User.findById(userid);
+
+  if (!withdraw) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Withdraw Not Found');
+  }
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User Not Found');
+  }
+  let balance = Number(user?.balance);
+  if (balance >= withdraw?.amount) {
+    // Deduct the withdrawal amount from the user's balance
+    balance -= withdraw?.amount;
+
+    // Save the updated user data
+    await user.save();
+  } else {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Insufficient balance for withdrawal',
+    );
+  }
+  return balance;
+};
+
 export const WithdrawServices = {
   createWithDrawToDB,
   getAllWithDrawFromDB,
   getSingleWithDrawFromDB,
   updateWithdrawIntoDB,
+  withdrawApprove,
 };

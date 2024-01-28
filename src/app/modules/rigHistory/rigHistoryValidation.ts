@@ -7,5 +7,6 @@ export const rigHistoryValidationSchema = z.object({
     pauseTime: z.date(),
     startTime: z.date(),
     duration: z.number(),
+    payouts: z.number(),
   }),
 });
