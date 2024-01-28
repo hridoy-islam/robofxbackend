@@ -10,6 +10,7 @@ import { WalleteRoutes } from '../modules/wallet/wallet.route';
 import { SettingsRoutes } from '../modules/settings/settings.route';
 import { InvoiceRoutes } from '../modules/invoice/invoice.route';
 import { RigHistoryRoutes } from '../modules/rigHistory/rigHistory.route';
+import { PayoutRoutes } from '../modules/payouts/payout.route';
 
 const router = Router();
 
@@ -57,6 +58,10 @@ const moduleRoutes = [
   {
     path: '/history',
     route: RigHistoryRoutes,
+  },
+  {
+    path: '/payout',
+    route: PayoutRoutes,
   },
 ];
 
