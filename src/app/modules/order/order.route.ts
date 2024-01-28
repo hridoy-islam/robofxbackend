@@ -11,7 +11,7 @@ router.get('/', auth('admin', 'user'), OrderControllers.getAllOrder);
 router.get('/:id', auth('admin', 'user'), OrderControllers.getSingleOrder);
 router.post(
   '/',
-  auth('admin'),
+  auth('admin', 'user'),
   validateRequest(createOrderValidationSchema),
   OrderControllers.createOrder,
 );
