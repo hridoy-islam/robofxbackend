@@ -7,4 +7,4 @@ const router = express.Router();
 
 router.get('/', auth('user', 'admin'), PayoutController.getAllPayouts);
 
-export const RigRoutes = router;
+export const PayoutRoutes = router;
