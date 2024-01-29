@@ -11,4 +11,5 @@ export type TRig = {
   power: string;
   efficiency: number;
   message: string;
+  isDeleted?: boolean;
 };
