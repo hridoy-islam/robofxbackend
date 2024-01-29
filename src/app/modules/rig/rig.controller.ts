@@ -36,8 +36,8 @@ const getSingleRig = catchAsync(async (req, res) => {
 
 const updateRig = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const { payload } = req.body;
-  const result = await RigServices.updateRigIntoDB(id, payload);
+
+  const result = await RigServices.updateRigIntoDB(id, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

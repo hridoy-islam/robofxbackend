@@ -8,13 +8,17 @@ const rigSchema = new Schema<TRig>({
   },
   rigName: { type: String },
   gpu: { type: String },
-  status: { type: String },
+  status: { type: String, default: 'pause' },
   temp: { type: String },
   fan: { type: String },
   load: { type: String },
   power: { type: String },
   efficiency: { type: Number },
   message: { type: String },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export const Rig = model('Rig', rigSchema);
