@@ -61,7 +61,8 @@ const withdrawApprove = async (id: string, userid: string) => {
   if (balance >= withdraw?.amount) {
     // Deduct the withdrawal amount from the user's balance
     balance -= withdraw?.amount;
-
+    withdraw.status = 'approve';
+    await withdraw.save();
     // Save the updated user data
     await user.save();
   } else {
