@@ -58,13 +58,18 @@ const withdrawApprove = async (id: string, userid: string) => {
     throw new AppError(httpStatus.NOT_FOUND, 'User Not Found');
   }
   let balance = Number(user?.balance);
+
   if (balance >= withdraw?.amount) {
     // Deduct the withdrawal amount from the user's balance
-    balance -= withdraw?.amount;
-    withdraw.status = 'approve';
-    await withdraw.save();
+    balance -= Number(withdraw?.amount);
+
+    if (withdraw?.status === 'pending') {
+      withdraw.status = 'approved'; // Assuming this should be 'approved' instead of 'pending'
+      await withdraw.save();
+    }
     // Save the updated user data
-    await user.save();
+
+    await User.findByIdAndUpdate(userid, { balance }, { new: true });
   } else {
     throw new AppError(
       httpStatus.NOT_FOUND,
