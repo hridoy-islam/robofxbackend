@@ -79,9 +79,34 @@ const addNewWallet = async (id: string, payload: TUserWallet) => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const uploadPDF = async (uploadedFile: any, id: string) => {
+  try {
+    // Check if a file was uploaded
+    if (!uploadedFile) {
+      throw new AppError(httpStatus.NOT_FOUND, 'No file uploaded');
+    }
+
+    const path = `uploads/${uploadedFile.filename}`;
+
+    //send image to cloudinary
+    const updateAgreement = await User.findByIdAndUpdate(
+      id,
+      {
+        agreement: path,
+      },
+      { new: true },
+    );
+    return updateAgreement;
+  } catch (error) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Failed to process the file');
+  }
+};
+
 export const UserServices = {
   getAllUserFromDB,
   getSingleUserFromDB,
   updateUserIntoDB,
   addNewWallet,
+  uploadPDF,
 };

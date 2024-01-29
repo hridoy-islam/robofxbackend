@@ -57,10 +57,22 @@ const createWallet = catchAsync(async (req, res) => {
   });
 });
 
+const uploadAgreement = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await UserServices.uploadPDF(req.file, id);
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'File Uploaded Successfully',
+    data: result,
+  });
+});
+
 export const UserControllers = {
   getAllUser,
   getSingleUser,
   updateUser,
   //updateWallet,
   createWallet,
+  uploadAgreement,
 };
