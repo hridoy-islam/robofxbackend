@@ -91,13 +91,13 @@ cron.schedule('* 1 * * *', async () => {
 
     // Update rig efficiency based on the total duration
     const totalActiveTime = 24 * 60 * 60 - totalInactiveTime;
-    const efficiencyIncrement = totalActiveTime * 0.00008;
+    // const efficiencyIncrement = totalActiveTime * 0.00008;
     const profit = totalActiveTime * userProfit;
 
-    const rigdb = await Rig.updateOne(
-      { _id: new mongoose.Types.ObjectId(rigid) },
-      { $inc: { efficiency: efficiencyIncrement } },
-    );
+    // const rigdb = await Rig.updateOne(
+    //   { _id: new mongoose.Types.ObjectId(rigid) },
+    //   { $inc: { efficiency: efficiencyIncrement } },
+    // );
 
     // Update any other necessary data
 
@@ -115,7 +115,7 @@ cron.schedule('* 1 * * *', async () => {
       userid,
       amount: profit,
     };
-    const payoutdb = await Payout.create(payoutsData);
+    await Payout.create(payoutsData);
   });
 });
 
