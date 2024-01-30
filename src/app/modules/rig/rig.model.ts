@@ -5,6 +5,7 @@ const rigSchema = new Schema<TRig>({
   userid: {
     type: Schema.Types.ObjectId,
     required: [true, 'User Id is required'],
+    ref: 'User',
   },
   rigName: { type: String },
   gpu: { type: String },
@@ -14,6 +15,7 @@ const rigSchema = new Schema<TRig>({
   load: { type: String },
   power: { type: String },
   efficiency: { type: Number },
+  proficiency: { type: Number },
   message: { type: String },
   isDeleted: {
     type: Boolean,

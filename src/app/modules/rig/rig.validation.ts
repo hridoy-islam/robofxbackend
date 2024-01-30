@@ -11,6 +11,7 @@ export const rigValidationSchema = z.object({
     load: z.string(),
     power: z.string(),
     efficiency: z.number(),
+    proficiency: z.number(),
     message: z.string().optional(),
     isDeleted: z.boolean().optional(),
   }),
@@ -26,5 +27,6 @@ export const updateRigValidationSchema = z.object({
     load: z.string().optional(),
     power: z.string().optional(),
     efficiency: z.number().optional(),
+    proficiency: z.number().optional(),
   }),
 });

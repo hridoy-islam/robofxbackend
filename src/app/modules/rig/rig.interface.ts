@@ -10,6 +10,7 @@ export type TRig = {
   load: string;
   power: string;
   efficiency: number;
+  proficiency: number;
   message: string;
   isDeleted?: boolean;
 };
