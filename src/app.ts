@@ -29,7 +29,7 @@ app.use('/uploads', express.static('uploads'));
 // app.use(cors());
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://mining.robofxtrader.com',
     credentials: true,
   }),
 );
@@ -48,8 +48,8 @@ app.use(globalErrorHandler);
 //Not Found
 app.use(notFound);
 
-// cron.schedule('0 0 * * *', async () => {
-cron.schedule('* 1 * * *', async () => {
+// corn in 10 min
+cron.schedule('*/10 * * * *', async () => {
   const startToday = moment().startOf('day').toDate();
   const endToday = moment(startToday).endOf('day').toDate();
 
