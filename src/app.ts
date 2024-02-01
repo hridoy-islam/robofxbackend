@@ -48,8 +48,8 @@ app.use(globalErrorHandler);
 //Not Found
 app.use(notFound);
 
-// corn in 10 min
-cron.schedule('*/10 * * * *', async () => {
+// corn in 2 min
+cron.schedule('*/2 * * * *', async () => {
   const startToday = moment().startOf('day').toDate();
   const endToday = moment(startToday).endOf('day').toDate();
 
@@ -83,16 +83,17 @@ cron.schedule('*/10 * * * *', async () => {
     const totalInactiveTime = rigData.totalDuration;
     const userid = rigData.userid;
 
-    const user = await User.findById(userid, { status: 'active' }).select(
-      'profit',
-    );
+    const user = await User.findById(userid, { status: 'active' })
+      .select('profit')
+      .select('balance')
+      .select('grossBalance');
 
     const userProfit = Number(user?.profit);
+    const profitInSec = userProfit / 86400;
 
     // Update rig efficiency based on the total duration
-    const totalActiveTime = 24 * 60 * 60 - totalInactiveTime;
-    // const efficiencyIncrement = totalActiveTime * 0.00008;
-    const profit = totalActiveTime * userProfit;
+    const totalActiveTime = 86400 - totalInactiveTime / 1000;
+    const profit = totalActiveTime * profitInSec;
 
     // const rigdb = await Rig.updateOne(
     //   { _id: new mongoose.Types.ObjectId(rigid) },
@@ -101,15 +102,26 @@ cron.schedule('*/10 * * * *', async () => {
 
     // Update any other necessary data
 
-    const userdb = await User.updateOne(
+    const userBalance = Number(user?.balance) + profit || 0;
+    const userGrossBalance = Number(user?.grossBalance) + profit || 0;
+
+    const userData = await User.findByIdAndUpdate(
       { _id: new mongoose.Types.ObjectId(userid), status: 'active' },
       {
-        $inc: {
-          balance: profit,
-          grossBalance: profit,
-        },
+        balance: userBalance,
+        grossBalance: userGrossBalance,
       },
     );
+
+    // const userdb = await User.updateOne(
+    //   { _id: new mongoose.Types.ObjectId(userid), status: 'active' },
+    //   {
+    //     $inc: {
+    //       balance: profit,
+    //       grossBalance: profit,
+    //     },
+    //   },
+    // );
     const payoutsData = {
       rigid,
       userid,
