@@ -30,6 +30,7 @@ const getSingleRigFromDB = async (id: string) => {
 };
 
 const updateRigIntoDB = async (id: string, payload: Partial<TRig>) => {
+
   const result = await Rig.findByIdAndUpdate(id, payload, { new: true });
   return result;
 };
