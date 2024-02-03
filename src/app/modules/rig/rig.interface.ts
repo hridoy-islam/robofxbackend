@@ -13,4 +13,5 @@ export type TRig = {
   proficiency: number;
   message: string;
   isDeleted?: boolean;
+  quantity: number;
 };

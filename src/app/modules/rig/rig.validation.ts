@@ -14,6 +14,7 @@ export const rigValidationSchema = z.object({
     proficiency: z.number(),
     message: z.string().optional(),
     isDeleted: z.boolean().optional(),
+    quantity: z.number().optional(),
   }),
 });
 
