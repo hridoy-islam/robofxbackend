@@ -19,6 +19,7 @@ import httpStatus from 'http-status';
 import { Payout } from './app/modules/payouts/payout.model';
 
 const app: Application = express();
+app.use(cors());
 
 //parsers
 app.use(express.json());
@@ -27,12 +28,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
 
 // app.use(cors());
-app.use(
-  cors({
-    origin: 'https://mining.robofxtrader.com',
-    credentials: true,
-  }),
-);
+// app.use(
+//   cors({
+//     origin: 'https://mining.robofxtrader.com',
+//     credentials: true,
+//   }),
+// );
 
 // application routes
 app.use('/api', router);
