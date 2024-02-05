@@ -41,17 +41,20 @@ const checkLogin = async (payload: TLogin) => {
     //   config.jwt_refresh_expires_in as string,
     // );
 
-    const accessToken = jwt.sign({ 
-      _id: foundUser._id?.toString(), 
-      email: foundUser?.email,
-      role: foundUser?.role
-    }, `${config.jwt_access_secret}`, {
-      expiresIn: '2 days',
-    });
-
+    const accessToken = jwt.sign(
+      {
+        _id: foundUser._id?.toString(),
+        email: foundUser?.email,
+        role: foundUser?.role,
+      },
+      `${config.jwt_access_secret}`,
+      {
+        expiresIn: '2 days',
+      },
+    );
 
     return {
-      accessToken
+      accessToken,
     };
   } catch (error) {
     throw new AppError(httpStatus.NOT_FOUND, 'Email Or Password doesnt match');
@@ -82,7 +85,6 @@ const forgetPassword = async (email: string) => {
   );
   const resetUILink = `${config.reset_pass_ui_link}?id=${user.email}&token=${resetToken} `;
   sendEmail(user.email, resetUILink);
-  console.log(resetUILink);
 };
 
 const resetPassword = async (
@@ -100,7 +102,6 @@ const resetPassword = async (
   ) as JwtPayload;
 
   if (payload.email !== decoded.email) {
-    console.log(payload.email, decoded.email);
     throw new AppError(httpStatus.FORBIDDEN, 'You are forbidden!');
   }
 

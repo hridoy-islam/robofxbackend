@@ -62,8 +62,7 @@ const userSchema = new Schema<TUser, UserModel>(
       default: 'USD',
     },
     primary_account: {
-      type: String,
-      default: 'USD',
+      type: Schema.Types.ObjectId,
     },
     wallets: [
       {
