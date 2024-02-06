@@ -50,86 +50,93 @@ app.use(globalErrorHandler);
 app.use(notFound);
 
 // corn in 2 min
-cron.schedule('*/2 * * * *', async () => {
-  const startToday = moment().startOf('day').toDate();
-  const endToday = moment(startToday).endOf('day').toDate();
+cron.schedule(
+  '0 0 * * *',
+  async () => {
+    const startToday = moment().startOf('day').toDate();
+    const endToday = moment(startToday).endOf('day').toDate();
 
-  const aggregatedData = await RigHistory.aggregate([
-    {
-      $match: {
-        startTime: { $gte: startToday, $lte: endToday },
-      },
-    },
-    {
-      $group: {
-        _id: {
-          rigid: '$rigid',
-          userid: '$userid',
-        },
-        totalDuration: { $sum: '$duration' },
-      },
-    },
-    {
-      $project: {
-        _id: 0, // Exclude the default _id field
-        rigid: '$_id.rigid',
-        userid: '$_id.userid',
-        totalDuration: 1,
-      },
-    },
-  ]);
-
-  aggregatedData.forEach(async (rigData) => {
-    const rigid = rigData.rigid;
-    const totalInactiveTime = rigData.totalDuration;
-    const userid = rigData.userid;
-
-    const user = await User.findById(userid, { status: 'active' })
-      .select('profit')
-      .select('balance')
-      .select('grossBalance');
-
-    const userProfit = Number(user?.profit);
-    const profitInSec = userProfit / 86400;
-
-    // Update rig efficiency based on the total duration
-    const totalActiveTime = 86400 - totalInactiveTime / 1000;
-    const profit = totalActiveTime * profitInSec;
-
-    // const rigdb = await Rig.updateOne(
-    //   { _id: new mongoose.Types.ObjectId(rigid) },
-    //   { $inc: { efficiency: efficiencyIncrement } },
-    // );
-
-    // Update any other necessary data
-
-    const userBalance = Number(user?.balance) + profit || 0;
-    const userGrossBalance = Number(user?.grossBalance) + profit || 0;
-
-    const userData = await User.findByIdAndUpdate(
-      { _id: new mongoose.Types.ObjectId(userid), status: 'active' },
+    const aggregatedData = await RigHistory.aggregate([
       {
-        balance: userBalance,
-        grossBalance: userGrossBalance,
+        $match: {
+          startTime: { $gte: startToday, $lte: endToday },
+        },
       },
-    );
+      {
+        $group: {
+          _id: {
+            rigid: '$rigid',
+            userid: '$userid',
+          },
+          totalDuration: { $sum: '$duration' },
+        },
+      },
+      {
+        $project: {
+          _id: 0, // Exclude the default _id field
+          rigid: '$_id.rigid',
+          userid: '$_id.userid',
+          totalDuration: 1,
+        },
+      },
+    ]);
 
-    // const userdb = await User.updateOne(
-    //   { _id: new mongoose.Types.ObjectId(userid), status: 'active' },
-    //   {
-    //     $inc: {
-    //       balance: profit,
-    //       grossBalance: profit,
-    //     },
-    //   },
-    // );
-    const payoutsData = {
-      rigid,
-      userid,
-      amount: profit,
-    };
-    await Payout.create(payoutsData);
-  });
-});
+    aggregatedData.forEach(async (rigData) => {
+      const rigid = rigData.rigid;
+      const totalInactiveTime = rigData.totalDuration;
+      const userid = rigData.userid;
+
+      const user = await User.findById(userid, { status: 'active' })
+        .select('profit')
+        .select('balance')
+        .select('grossBalance');
+
+      const userProfit = Number(user?.profit);
+      const profitInSec = userProfit / 86400;
+
+      // Update rig efficiency based on the total duration
+      const totalActiveTime = 86400 - totalInactiveTime / 1000;
+      const profit = totalActiveTime * profitInSec;
+
+      // const rigdb = await Rig.updateOne(
+      //   { _id: new mongoose.Types.ObjectId(rigid) },
+      //   { $inc: { efficiency: efficiencyIncrement } },
+      // );
+
+      // Update any other necessary data
+
+      const userBalance = Number(user?.balance) + profit || 0;
+      const userGrossBalance = Number(user?.grossBalance) + profit || 0;
+
+      const userData = await User.findByIdAndUpdate(
+        { _id: new mongoose.Types.ObjectId(userid), status: 'active' },
+        {
+          balance: userBalance,
+          grossBalance: userGrossBalance,
+        },
+      );
+
+      // const userdb = await User.updateOne(
+      //   { _id: new mongoose.Types.ObjectId(userid), status: 'active' },
+      //   {
+      //     $inc: {
+      //       balance: profit,
+      //       grossBalance: profit,
+      //     },
+      //   },
+      // );
+      const payoutsData = {
+        rigid,
+        userid,
+        amount: profit,
+      };
+      await Payout.create(payoutsData);
+    });
+  },
+  {
+    scheduled: true,
+    timezone: 'America/Sao_Paulo',
+  },
+);
 
 export default app;
