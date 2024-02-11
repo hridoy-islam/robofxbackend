@@ -28,7 +28,7 @@ app.use('/uploads', express.static('uploads'));
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://mining.robofxtrader.com',
     credentials: true,
   }),
 );
@@ -56,8 +56,8 @@ app.use(notFound);
 
 // corn in 2 min
 cron.schedule(
-  // '55 23 * * *',
-  '* * * * *',
+  '55 23 * * *',
+  // '* * * * *',
   async () => {
     const startToday = moment().startOf('day').toDate();
     const endToday = moment(startToday).endOf('day').toDate();
@@ -71,8 +71,6 @@ cron.schedule(
       .select('userid')
       .exec();
     miningRigs.forEach(async (miningRig) => {
-      console.log('mining rig', miningRig);
-
       const rigId = miningRig._id;
       const userId = miningRig.userid;
 
@@ -92,6 +90,7 @@ cron.schedule(
         startTime,
         duration,
       });
+      await newRigHistory.save();
     });
 
     const aggregatedData = await RigHistory.aggregate([
@@ -141,21 +140,20 @@ cron.schedule(
       const userBalance = Number(user?.balance) + profit || 0;
       const userGrossBalance = Number(user?.grossBalance) + profit || 0;
 
-      // live  working code
-      // const userData = await User.findByIdAndUpdate(
-      //   { _id: new mongoose.Types.ObjectId(userid), status: 'active' },
-      //   {
-      //     balance: userBalance,
-      //     grossBalance: userGrossBalance,
-      //   },
-      // );
+      const userData = await User.findByIdAndUpdate(
+        { _id: new mongoose.Types.ObjectId(userid), status: 'active' },
+        {
+          balance: userBalance,
+          grossBalance: userGrossBalance,
+        },
+      );
 
       const payoutsData = {
         rigid,
         userid,
         amount: profit,
       };
-      // await Payout.create(payoutsData); ------ live  working code
+      await Payout.create(payoutsData);
     });
   },
   {
