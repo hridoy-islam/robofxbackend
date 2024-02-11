@@ -28,10 +28,17 @@ app.use('/uploads', express.static('uploads'));
 
 app.use(
   cors({
-    origin: 'https://mining.robofxtrader.com',
+    origin: 'http://localhost:3000',
     credentials: true,
   }),
 );
+
+// app.use(
+//   cors({
+//     origin: 'https://mining.robofxtrader.com',
+//     credentials: true,
+//   }),
+// );
 
 // application routes
 app.use('/api', router);
@@ -49,10 +56,43 @@ app.use(notFound);
 
 // corn in 2 min
 cron.schedule(
-  '0 0 * * *',
+  // '55 23 * * *',
+  '* * * * *',
   async () => {
     const startToday = moment().startOf('day').toDate();
     const endToday = moment(startToday).endOf('day').toDate();
+
+    // find minining rigs
+    const miningRigs = await Rig.find({
+      status: 'mining',
+      isDeleted: false,
+    })
+      .select('_id')
+      .select('userid')
+      .exec();
+    miningRigs.forEach(async (miningRig) => {
+      console.log('mining rig', miningRig);
+
+      const rigId = miningRig._id;
+      const userId = miningRig.userid;
+
+      const pauseTime = moment().format();
+
+      // Add a second to the current time
+      const startTime = moment().add(1, 'second').toDate();
+
+      // Calculate the duration in milliseconds
+      const duration = moment(startTime).diff(pauseTime);
+
+      // Create a new rig history entry
+      const newRigHistory = new RigHistory({
+        rigid: rigId,
+        userid: userId,
+        pauseTime,
+        startTime,
+        duration,
+      });
+    });
 
     const aggregatedData = await RigHistory.aggregate([
       {
@@ -96,44 +136,30 @@ cron.schedule(
       const totalActiveTime = 86400 - totalInactiveTime / 1000;
       const profit = totalActiveTime * profitInSec;
 
-      // const rigdb = await Rig.updateOne(
-      //   { _id: new mongoose.Types.ObjectId(rigid) },
-      //   { $inc: { efficiency: efficiencyIncrement } },
-      // );
-
       // Update any other necessary data
 
       const userBalance = Number(user?.balance) + profit || 0;
       const userGrossBalance = Number(user?.grossBalance) + profit || 0;
 
-      const userData = await User.findByIdAndUpdate(
-        { _id: new mongoose.Types.ObjectId(userid), status: 'active' },
-        {
-          balance: userBalance,
-          grossBalance: userGrossBalance,
-        },
-      );
-
-      // const userdb = await User.updateOne(
+      // live  working code
+      // const userData = await User.findByIdAndUpdate(
       //   { _id: new mongoose.Types.ObjectId(userid), status: 'active' },
       //   {
-      //     $inc: {
-      //       balance: profit,
-      //       grossBalance: profit,
-      //     },
+      //     balance: userBalance,
+      //     grossBalance: userGrossBalance,
       //   },
       // );
+
       const payoutsData = {
         rigid,
         userid,
         amount: profit,
       };
-      await Payout.create(payoutsData);
+      // await Payout.create(payoutsData); ------ live  working code
     });
   },
   {
-    scheduled: true,
-    timezone: 'America/Sao_Paulo',
+    timezone: 'America/New_York',
   },
 );
 
