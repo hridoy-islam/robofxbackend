@@ -17,12 +17,12 @@ router.post(
 
 router.post(
   '/pauseall/:userid',
-  auth('admin', 'user'),
+  //auth('admin', 'user'),
   RigHisotyControllers.pauseall,
 );
 router.post(
   '/startall/:userid',
-  auth('admin', 'user'),
+  //auth('admin', 'user'),
   RigHisotyControllers.startall,
 );
 

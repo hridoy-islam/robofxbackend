@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { Rig } from '../rig/rig.model';
 import RigHistory from './rigHistory.model';
+import moment from 'moment';
 
 const pauseRigToDB = async (rigid: string) => {
   try {
@@ -18,7 +19,7 @@ const pauseRigToDB = async (rigid: string) => {
       throw new AppError(httpStatus.NOT_FOUND, 'Rig not found');
     }
 
-    const pauseTime = new Date();
+    const pauseTime = moment().unix();
     const historyEntry = await RigHistory.create({
       rigid: rig._id,
       userid: rig.userid,
@@ -53,10 +54,10 @@ const startRigIntoDB = async (rigid: string) => {
       throw new AppError(httpStatus.NOT_FOUND, 'Rig is not paused');
     }
 
-    historyEntry.startTime = new Date();
-    historyEntry.duration =
-      (historyEntry.startTime.getTime() - historyEntry.pauseTime.getTime()) /
-      1000;
+    historyEntry.startTime = moment().unix();
+    historyEntry.duration = moment(historyEntry.startTime).diff(
+      historyEntry.pauseTime,
+    );
     await historyEntry.save();
 
     return historyEntry;
@@ -67,7 +68,7 @@ const startRigIntoDB = async (rigid: string) => {
 
 const pauseallrigs = async (userid: string) => {
   try {
-    const pauseTime = new Date();
+    const pauseTime = moment().unix();
     const rigs = await Rig.find({ userid });
 
     const updateStatus = await Rig.updateMany({ userid }, { status: 'pause' });
@@ -94,7 +95,7 @@ const pauseallrigs = async (userid: string) => {
 
 const startallrigs = async (userid: string) => {
   try {
-    const startTime = new Date();
+    const startTime = moment().unix();
     const rigs = await Rig.find({ userid });
 
     const updateStatus = await Rig.updateMany({ userid }, { status: 'mining' });
@@ -111,10 +112,10 @@ const startallrigs = async (userid: string) => {
         });
         if (historyEntry) {
           historyEntry.startTime = startTime;
-          historyEntry.duration =
-            (historyEntry.startTime.getTime() -
-              historyEntry.pauseTime.getTime()) /
-            1000;
+          historyEntry.duration = moment(historyEntry.startTime).diff(
+            historyEntry.pauseTime,
+          );
+
           await historyEntry.save();
         }
         return historyEntry;

@@ -62,12 +62,12 @@ app.use(notFound);
 
 // corn in 2 min
 cron.schedule(
-  // '55 23 * * *',
-  '*/5 * * * *',
+  // '59 23 * * *',
+  '*/1 * * * *',
   async () => {
-    const startToday = moment().startOf('day').toDate();
-    const endToday = moment(startToday).endOf('day').toDate();
-    console.log('time' + new Date());
+    const startToday = moment().startOf('day').unix();
+    const endToday = moment.unix(startToday).endOf('day').unix();
+
     // find minining rigs
     const miningRigs = await Rig.find({
       status: 'mining',
@@ -76,40 +76,18 @@ cron.schedule(
       .select('_id')
       .select('userid')
       .exec();
-    // miningRigs.forEach(async (miningRig) => {
-    //   const rigId = miningRig._id;
-    //   const userId = miningRig.userid;
-
-    //   const pauseTime = moment().format();
-
-    //   // Add a second to the current time
-    //   const startTime = moment().add(1, 'second').toDate();
-
-    //   // Calculate the duration in milliseconds
-    //   const duration = moment(startTime).diff(pauseTime);
-
-    //   // Create a new rig history entry
-    //   const newRigHistory = new RigHistory({
-    //     rigid: rigId,
-    //     userid: userId,
-    //     pauseTime,
-    //     startTime,
-    //     duration,
-    //   });
-    //   await newRigHistory.save();
-    // });
 
     for (const miningRig of miningRigs) {
       const rigId = miningRig._id;
       const userId = miningRig.userid;
 
-      const pauseTime = moment().format();
+      const pauseTime = moment().unix();
 
       // Add a second to the current time
-      const startTime = moment().add(1, 'second').toDate();
+      const startTime = moment().add(1, 'second').unix();
 
       // Calculate the duration in seconds
-      const duration = moment(startTime).diff(pauseTime) / 1000;
+      const duration = moment(startTime).diff(pauseTime);
 
       // Create a new rig history entry
       const newRigHistory = new RigHistory({
@@ -152,7 +130,7 @@ cron.schedule(
       const totalInactiveTime = rigData.totalDuration;
       const userid = rigData.userid;
 
-      const user = await User.findById(userid, { status: 'active' })
+      const user = await User.findById(userid, { status: 'approved' })
         .select('profit')
         .select('balance')
         .select('grossBalance');
@@ -161,7 +139,7 @@ cron.schedule(
       const profitInSec = userProfit / 86400;
 
       // Update rig efficiency based on the total duration
-      const totalActiveTime = 86400 - totalInactiveTime / 1000;
+      const totalActiveTime = 86400 - totalInactiveTime;
       const profit = totalActiveTime * profitInSec;
 
       // Update any other necessary data
@@ -184,44 +162,6 @@ cron.schedule(
       };
       await Payout.create(payoutsData);
     }
-
-    // aggregatedData.forEach(async (rigData) => {
-    //   const rigid = rigData.rigid;
-    //   const totalInactiveTime = rigData.totalDuration;
-    //   const userid = rigData.userid;
-
-    //   const user = await User.findById(userid, { status: 'active' })
-    //     .select('profit')
-    //     .select('balance')
-    //     .select('grossBalance');
-
-    //   const userProfit = Number(user?.profit);
-    //   const profitInSec = userProfit / 86400;
-
-    //   // Update rig efficiency based on the total duration
-    //   const totalActiveTime = 86400 - totalInactiveTime / 1000;
-    //   const profit = totalActiveTime * profitInSec;
-
-    //   // Update any other necessary data
-
-    //   const userBalance = Number(user?.balance) + profit || 0;
-    //   const userGrossBalance = Number(user?.grossBalance) + profit || 0;
-
-    //   const userData = await User.findByIdAndUpdate(
-    //     { _id: new mongoose.Types.ObjectId(userid), status: 'active' },
-    //     {
-    //       balance: userBalance,
-    //       grossBalance: userGrossBalance,
-    //     },
-    //   );
-
-    //   const payoutsData = {
-    //     rigid,
-    //     userid,
-    //     amount: profit,
-    //   };
-    //   await Payout.create(payoutsData);
-    // });
   },
   {
     timezone: 'America/New_York',
