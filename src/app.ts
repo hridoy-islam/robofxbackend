@@ -26,11 +26,11 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
 
-app.use(
-  cors({
-    origin: '*',
-  }),
-);
+// app.use(
+//   cors({
+//     origin: '*',
+//   }),
+// );
 
 // app.use(
 //   cors({
@@ -39,12 +39,12 @@ app.use(
 //   }),
 // );
 
-// app.use(
-//   cors({
-//     origin: 'https://mining.robofxtrader.com',
-//     credentials: true,
-//   }),
-// );
+app.use(
+  cors({
+    origin: 'https://mining.robofxtrader.com',
+    credentials: true,
+  }),
+);
 
 // application routes
 app.use('/api', router);
@@ -62,8 +62,8 @@ app.use(notFound);
 
 // corn in 2 min
 cron.schedule(
-  // '59 23 * * *',
-  '*/1 * * * *',
+  '59 23 * * *',
+  //'*/1 * * * *',
   async () => {
     const startToday = moment().startOf('day').unix();
     const endToday = moment.unix(startToday).endOf('day').unix();
