@@ -3,6 +3,8 @@ import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import { TUser, TUserWallet } from './user.interface';
 import { User } from './user.model';
+import config from '../../config';
+import bcrypt from 'bcrypt';
 
 const getAllUserFromDB = async (query: Record<string, unknown>) => {
   const userQuery = new QueryBuilder(User.find(), query)
@@ -30,6 +32,7 @@ const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
     billing_information,
     personal_information,
     contact_information,
+     password,
     ...remainingStudentData
   } = payload;
   const modifiedUpdatedData: Record<string, unknown> = {
@@ -52,6 +55,14 @@ const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
     for (const [key, value] of Object.entries(billing_information)) {
       modifiedUpdatedData[`billing_information.${key}`] = value;
     }
+  }
+
+  if (password) {
+    const hashedPassword = await bcrypt.hash(
+      password,
+      Number(config.bcrypt_salt_rounds),
+    );
+    modifiedUpdatedData.password = hashedPassword;
   }
 
   const result = await User.findByIdAndUpdate(id, modifiedUpdatedData, {

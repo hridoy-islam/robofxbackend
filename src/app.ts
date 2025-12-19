@@ -41,7 +41,7 @@ app.use('/uploads', express.static('uploads'));
 
 app.use(
   cors({
-    origin: ['https://mining.robofxtrader.com','http://localhost:3000','https://cryptominerx.com'],
+    origin: ['https://mining.robofxtrader.com','http://localhost:3001','https://cryptominerx.com','http://localhost:3000'],
     credentials: true,
   }),
 );
