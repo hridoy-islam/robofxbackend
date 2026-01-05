@@ -9,7 +9,7 @@ const pauseRig = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Rig Paused succesfully',
+    message: 'Rig Paused Succesfully',
     data: result,
   });
 });
@@ -20,7 +20,7 @@ const startRig = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Rig Paused succesfully',
+    message: 'Rig Started Succesfully',
     data: result,
   });
 });
